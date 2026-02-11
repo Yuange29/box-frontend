@@ -97,8 +97,12 @@ const SignInForm = () => {
           </p>
         </div>
       </Wrapper>
-      <Dialog show={showDialog} onClose={() => setShowDialog(false)}>
-        <p>Đăng nhập thất bại</p>
+      <Dialog
+        isOpen={showDialog}
+        onClose={() => setShowDialog(false)}
+        title="Thông báo"
+      >
+        <p>Đăng nhập thành công!</p>
       </Dialog>
     </>
   );

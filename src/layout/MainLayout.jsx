@@ -5,6 +5,7 @@ import HeaderLayout from "../components/Header/HeaderLayout";
 
 const Main = styled.main`
   min-height: calc(100vh - 64px - 120px);
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
 `;
