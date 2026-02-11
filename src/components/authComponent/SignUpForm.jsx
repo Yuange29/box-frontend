@@ -20,7 +20,6 @@ export default function SignUpForm() {
   const { login: loginContext } = useContext(AuthContext);
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
-
   const redirectTimer = useRef(null);
 
   useEffect(() => {
