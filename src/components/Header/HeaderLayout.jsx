@@ -2,11 +2,10 @@ import { styled } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../../Contexts/AuthContext.jsx";
+import { AuthContext } from "../../contexts/AuthContext";
 import { getLinks } from "../../data/navLinks.js";
 //  img
 import logoImg from "../../assets/img/logo-img.png";
-//  data
 
 const Header = styled.header`
   height: 64px;
@@ -18,8 +17,10 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
 
   box-shadow: ${(p) => (p.scrolled ? "0 2px 8px rgba(0,0,0,0.15)" : "none")};

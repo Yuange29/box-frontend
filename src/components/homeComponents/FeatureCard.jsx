@@ -3,17 +3,27 @@ import { useNavigate } from "react-router-dom";
 
 const FeatureCard = ({ title, desc, direct }) => {
   const navigate = useNavigate();
+
+  const handleReadMore = () => {
+    if (direct) {
+      navigate(direct);
+    }
+  };
+
   return (
     <StyledWrapper>
       <div className="card">
-        <div className="title-1">{title}</div>
-        <div className="content">{desc}</div>
-        <button className="btn" onClick={() => navigate(direct)}>
-          Learn more
-        </button>
-        <div class="bar">
-          <div class="emptybar"></div>
-          <div class="filledbar"></div>
+        <div className="icon-section">
+          <div className="icon-wrapper">{<i class="fa-solid fa-box"></i>}</div>
+        </div>
+        <div className="content">
+          <h3 className="heading">{title || "Feature"}</h3>
+          <p className="para">
+            {desc || "Enhance your experience with our amazing features"}
+          </p>
+          <button className="btn" onClick={handleReadMore}>
+            →
+          </button>
         </div>
       </div>
     </StyledWrapper>
@@ -21,123 +31,173 @@ const FeatureCard = ({ title, desc, direct }) => {
 };
 
 const StyledWrapper = styled.div`
-  .card {
-    display: flex;
-    height: 280px;
-    width: 200px;
-    background: linear-gradient(145deg, #163d1f, #1f5a2c);
-    border-radius: 14px;
-    box-shadow: -1rem 0 2rem rgba(0, 0, 0, 0.35);
-    margin-left: -50px;
-    transition: 0.4s ease;
-    position: relative;
-    left: 0px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
 
-  .card:not(:first-child) {
-    margin-left: -50px;
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-height: 280px;
+    padding: 32px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
   }
 
   .card:hover {
-    transform: translateY(-20px);
-    box-shadow:
-      -1rem 0 3rem rgba(0, 0, 0, 0.45),
-      0 10px 30px rgba(46, 204, 113, 0.35);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(248, 155, 41, 0.2);
+    border-color: rgba(255, 15, 123, 0.3);
   }
 
-  .card:hover ~ .card {
-    position: relative;
-    left: 50px;
-    transform: rotateX(-10deg) rotateY(8deg);
-    transition: 0.4s ease;
+  .icon-section {
+    margin-bottom: 16px;
   }
 
-  .title-1 {
-    color: #d4f8d4;
-    font-size: 24px;
-    font-weight: 700;
-    position: absolute;
-    left: 20px;
-    top: 15px;
-  }
-
-  /* ==== BUTTON MỚI ==== */
-  .btn {
-    position: absolute;
-    top: 195px;
-    margin: 0 20px;
-    width: 120px;
-    height: 36px;
+  .icon-wrapper {
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
     border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: #fff;
-
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
   }
 
-  .btn:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(135deg, #2ecc71, #58d68d);
-    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
-  }
-
-  .btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 3px 10px rgba(46, 204, 113, 0.4);
-  }
-
-  .bar {
-    position: relative;
-    top: 250px;
-    height: 5px;
-    width: 100%;
-  }
-
-  .emptybar {
-    background-color: #0f2d17;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-  }
-
-  .filledbar {
-    position: absolute;
-    top: 0px;
-    z-index: 3;
-    width: 0px;
-    height: 100%;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #27ae60, #6fffb0);
-    transition: 0.6s ease;
-  }
-
-  .card:hover .filledbar {
-    width: 100%;
+  .card:hover .icon-wrapper {
+    transform: scale(1.1) rotateZ(10deg);
+    box-shadow: 0 8px 16px rgba(248, 155, 41, 0.3);
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .content .heading {
+    font-weight: 700;
+    font-size: 24px;
+    color: #ffffff;
+    margin: 0;
+    transition: color 0.3s ease;
+    background: linear-gradient(135deg, #f89b29 0%, #ff0f7b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card:hover .heading {
+    -webkit-text-fill-color: unset;
+    color: #f89b29;
+  }
+
+  .content .para {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #b0b0b0;
+    margin: 0;
+    flex: 1;
+    transition: color 0.3s ease;
+  }
+
+  .card:hover .para {
+    color: #e8e8e8;
+  }
+
+  .content .btn {
+    align-self: flex-start;
+    color: #e8e8e8;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(248, 155, 41, 0.3);
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .content .btn:hover {
+    background: transparent;
+    border-color: #f89b29;
+    color: #f89b29;
+    box-shadow: internal 0 0 0 1px rgba(248, 155, 41, 0.5);
+    transform: translateX(6px);
+  }
+
+  .content .btn:active {
+    transform: translateX(2px);
+  }
+
+  .card::before {
+    content: "";
     position: absolute;
-    padding: 20px;
-    top: 60px;
-    color: #e8ffe8;
-    font-size: 1rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #f89b29, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .stroke {
-    stroke: #6fffb0;
-    stroke-dasharray: 360;
-    stroke-dashoffset: 360;
-    transition: 0.6s ease;
+  .card:hover::before {
+    opacity: 1;
   }
 
-  .card:hover .stroke {
-    stroke-dashoffset: 100;
+  @media (max-width: 768px) {
+    .card {
+      min-height: 240px;
+      padding: 24px;
+    }
+
+    .content .heading {
+      font-size: 18px;
+    }
+
+    .icon-wrapper {
+      width: 48px;
+      height: 48px;
+      font-size: 32px;
+    }
+
+    .content .para {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      min-height: 220px;
+      padding: 20px;
+    }
+
+    .content .heading {
+      font-size: 16px;
+    }
+
+    .icon-wrapper {
+      width: 40px;
+      height: 40px;
+      font-size: 28px;
+    }
   }
 `;
 

@@ -1,15 +1,14 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import styled from "styled-components";
 
 import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
 import FeatureCard from "../components/homeComponents/FeatureCard.jsx";
-import Dialog from "../components/ui/Dialog";
 import { Heading, Text } from "../components/ui/Typography";
+import { featureLink } from "../data/featureLink.js";
 
 export default function Home() {
-  // const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useContext(AuthContext);
   return (
     <>
@@ -25,16 +24,15 @@ export default function Home() {
         <Container>
           <Heading $level={2}>Một số tính năng:</Heading>
           <CardStyle>
-            <FeatureCard
-              title={"test card"}
-              desc={"Mô tả cho card test"}
-              direct={"/"}
-            />
-            <FeatureCard
-              title={"test card"}
-              desc={"Mô tả cho card test"}
-              direct={"/"}
-            />
+            {featureLink.map((feature) => (
+              <FeatureCard
+                key={feature.title}
+                icon={feature.icon}
+                title={feature.title}
+                desc={feature.desc}
+                direct={feature.direct}
+              />
+            ))}
           </CardStyle>
         </Container>
       </Section>
@@ -43,7 +41,24 @@ export default function Home() {
 }
 
 const CardStyle = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 `;
