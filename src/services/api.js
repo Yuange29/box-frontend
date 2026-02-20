@@ -4,41 +4,50 @@ export const api = axios.create({
   baseURL: "https://box-backend-l8sq.onrender.com/storage",
 });
 
-const publicEndpoints = ["/users", "/auth/login"];
-
-api.interceptors.request.use(
-  (config) => {
-    const isPublicEndpoint = publicEndpoints.some((endpoint) =>
-      config.url.startsWith(endpoint),
-    );
-
-    const token = localStorage.getItem("authToken");
-
-    if (!isPublicEndpoint && !token) {
-      return Promise.reject(new Error("Không có token, không thể truy cập"));
-    }
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
+  return config;
+});
 
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response?.status === 401) {
-      // Xóa token nếu server trả 401
-      localStorage.removeItem("authToken");
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      try {
+        const response = await axios.post(
+          "https://box-backend-l8sq.onrender.com/storage/auth/refresh",
+          { token: refreshToken },
+        );
+
+        const newAccessToken = response.data.result.accessToken;
+        const newRefreshToken = response.data.result.refreshToken;
+
+        localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("refreshToken", newRefreshToken);
+
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.location.href = "/signin";
+        return Promise.reject(refreshError);
+      }
     }
     return Promise.reject(error);
   },
 );
-
 export default api;

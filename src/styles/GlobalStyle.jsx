@@ -12,5 +12,6 @@ export const GlobalStyle = createGlobalStyle`
     --desc-text: #6B7280;
     --link-text: #2563EB ;
     --background-color: #f0fdfa;
+    --section-color: #26513c;
   }
 `;

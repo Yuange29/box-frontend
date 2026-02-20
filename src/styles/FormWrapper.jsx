@@ -48,6 +48,7 @@ const Wrapper = styled.div`
   }
 
   .forgot {
+    cursor: pointer;
     align-self: flex-end;
     font-size: 12px;
     color: #6b7280;

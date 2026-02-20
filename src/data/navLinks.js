@@ -7,9 +7,9 @@ export const getLinks = (user) => {
       roles: ["user", "admin"],
     },
     {
-      id: "about",
-      label: "Về web",
-      path: "/about",
+      id: "category",
+      label: "Danh mục",
+      path: "/categories",
       roles: ["user", "admin"],
     },
     {

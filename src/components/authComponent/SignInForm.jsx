@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext } from "react";
 import Wrapper from "../../styles/FormWrapper";
 import { login } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import Dialog from "../ui/Dialog";
 import Loading from "../ui/Loading";
 import { SmallText, Text } from "../ui/Typography";
 import { getInfo } from "../../services/user.service";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const SignInForm = () => {
   const [userName, setUserName] = useState("");
@@ -16,7 +16,6 @@ const SignInForm = () => {
   const [error, setError] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const { login: loginContext } = useContext(AuthContext);
-  const redirectTimer = useRef(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -32,18 +31,18 @@ const SignInForm = () => {
       setLoading(true);
       const response = await login(userName, password);
 
-      const token = response.data.result.token;
-      localStorage.setItem("authToken", token);
+      const accessToken = response.data.result.accessToken;
+      const refreshToken = response.data.result.refreshToken;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
       const userInfo = await getInfo();
 
       loginContext(userInfo.data.result);
       setShowDialog(true);
 
-      redirectTimer.current = setTimeout(() => {
-        redirectTimer.current = null;
-        navigate("/");
-      }, 5000);
+      navigate("/");
     } catch (err) {
       setShowDialog(true);
       console.error("Login failed:", err);

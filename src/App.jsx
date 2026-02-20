@@ -8,7 +8,8 @@ import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import FogotPassword from "./pages/FogotPassword.jsx";
 
-import { AuthProvider } from "./Contexts/AuthContext.jsx";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
+import Categories from "./pages/Categories..jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/forgot-password" element={<FogotPassword />} />
+              <Route path="/categories" element={<Categories />} />
             </Route>
           </Routes>
         </BrowserRouter>
