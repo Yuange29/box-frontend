@@ -12,6 +12,7 @@ function AuthProvider({ children }) {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem("accessToken");
+        console.log("Token:", token);
         if (!token) {
           setUser(null);
           setLoading(false);
@@ -19,10 +20,11 @@ function AuthProvider({ children }) {
         }
 
         const response = await getInfo();
+
         setUser(response.data.result);
       } catch (error) {
+        console.error("Error fetching user info:", error);
         setUser(null);
-        console.error("Failed to fetch user info:", error);
       } finally {
         setLoading(false);
       }
@@ -34,7 +36,7 @@ function AuthProvider({ children }) {
   const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
