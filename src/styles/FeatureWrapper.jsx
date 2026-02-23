@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
 const FeatureWrapper = styled.div`
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   margin-top: 32px;
   width: 100%;
-
+  padđing: 8px;
   & > div {
     transition:
       opacity 0.3s ease,
       filter 0.3s ease;
+    min-width: 0;
   }
 
   &:has(> div:hover) > div:not(:hover) {

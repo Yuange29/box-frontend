@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const FeatureCard = ({ title, desc, direct }) => {
+const FeatureCard = ({ title, desc, direct, icon }) => {
   const navigate = useNavigate();
 
   const handleReadMore = () => {
@@ -14,7 +14,9 @@ const FeatureCard = ({ title, desc, direct }) => {
     <StyledWrapper>
       <div className="card">
         <div className="icon-section">
-          <div className="icon-wrapper">{<i class="fa-solid fa-box"></i>}</div>
+          <div className="icon-wrapper">
+            <i className={icon || "fa-solid fa-box"}></i>
+          </div>
         </div>
         <div className="content">
           <h3 className="heading">{title || "Feature"}</h3>
@@ -32,10 +34,11 @@ const FeatureCard = ({ title, desc, direct }) => {
 
 const StyledWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  min-height: 100%;
   width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 
   .card {
     position: relative;
@@ -43,6 +46,7 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    height: 100%;
     min-height: 280px;
     padding: 32px;
     overflow: hidden;
@@ -50,6 +54,7 @@ const StyledWrapper = styled.div`
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
   }
@@ -138,7 +143,7 @@ const StyledWrapper = styled.div`
     background: transparent;
     border-color: #f89b29;
     color: #f89b29;
-    box-shadow: internal 0 0 0 1px rgba(248, 155, 41, 0.5);
+    box-shadow: inset 0 0 0 1px rgba(248, 155, 41, 0.5);
     transform: translateX(6px);
   }
 

@@ -12,7 +12,6 @@ function AuthProvider({ children }) {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        console.log("Token:", token);
         if (!token) {
           setUser(null);
           setLoading(false);

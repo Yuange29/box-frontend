@@ -6,16 +6,24 @@ const Footer = styled.footer`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  gap: 16px;
+  padding: 40px 24px;
+  box-sizing: border-box;
   background-color: var(--footer-color);
 `;
 
-const InfomationCard = styled.div`
+const InformationCard = styled.div`
   flex: 1 1 280px;
+  max-width: 100%;
   padding: 16px;
   border-radius: 12px;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.05);
   font-size: 18px;
   color: var(--cotton-color);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);
@@ -23,27 +31,31 @@ const InfomationCard = styled.div`
   }
 
   @media (max-width: 600px) {
+    flex: 1 1 100%;
     font-size: 16px;
   }
 `;
 
-const InfomationTitle = styled.h3`
+const InformationTitle = styled.h3`
   margin-bottom: 12px;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.5px;
 `;
 
-const InfomationList = styled.ul`
+const InformationList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
 `;
 
-const InfomationChild = styled.li`
+const InformationChild = styled.li`
   padding: 6px 0;
   font-size: 16px;
   opacity: 0.85;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 
   &:hover {
     scale: 1.02;
@@ -55,16 +67,26 @@ const InfomationChild = styled.li`
   }
 `;
 
+const Copyright = styled.div`
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  font-size: 14px;
+  opacity: 0.6;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--cotton-color);
+`;
+
 function ShowData({ title, inf }) {
   return (
-    <InfomationCard>
-      <InfomationTitle>{title}</InfomationTitle>
-      <InfomationList>
+    <InformationCard>
+      <InformationTitle>{title}</InformationTitle>
+      <InformationList>
         {inf.map((e, index) => (
-          <InfomationChild key={index}>{e}</InfomationChild>
+          <InformationChild key={index}>{e}</InformationChild>
         ))}
-      </InfomationList>
-    </InfomationCard>
+      </InformationList>
+    </InformationCard>
   );
 }
 
@@ -74,6 +96,7 @@ export default function FooterLayout() {
       {footerData.map((item, index) => (
         <ShowData key={index} {...item} />
       ))}
+      <Copyright>© 2026 Storage Service. All rights reserved.</Copyright>
     </Footer>
   );
 }

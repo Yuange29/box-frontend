@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { getLinks } from "../../data/navLinks.js";
-//  img
 import logoImg from "../../assets/img/logo-img.png";
 
 const Header = styled.header`
