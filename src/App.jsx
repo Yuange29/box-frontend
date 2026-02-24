@@ -9,16 +9,17 @@ import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import FogotPassword from "./pages/FogotPassword.jsx";
 import Loading from "./pages/Loading.jsx";
-
-import { AuthProvider, AuthContext } from "./contexts/AuthContext.jsx";
 import Categories from "./pages/Categories.jsx";
+
+import { AuthProvider, AuthContext } from "./Contexts/AuthContext";
+import LoadingScreen from "./components/ui/LoadingScreen";
 
 function AppContent() {
   const { loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && window.location.pathname === "/loading") {
       navigate("/");
     }
   }, [loading, navigate]);
@@ -49,6 +50,7 @@ function App() {
         <BrowserRouter>
           <AppContent />
         </BrowserRouter>
+        <LoadingScreen />
       </AuthProvider>
     </>
   );

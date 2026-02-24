@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const FeatureCard = ({ title, desc, direct, icon }) => {
-  const navigate = useNavigate();
-
   const handleReadMore = () => {
     if (direct) {
-      navigate(direct);
+      const elementId = direct.replace("#", "");
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 

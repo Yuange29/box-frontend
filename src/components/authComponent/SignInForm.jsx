@@ -7,7 +7,7 @@ import Dialog from "../ui/Dialog";
 import Loading from "../ui/Loading";
 import { SmallText, Text } from "../ui/Typography";
 import { getInfo } from "../../services/user.service";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 const SignInForm = () => {
   const [userName, setUserName] = useState("");
