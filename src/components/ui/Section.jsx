@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Section = styled.section`
   box-sizing: border-box;
   width: 100%;
-  // overflow: hidden;
+  margin-bottom: 32px;
   padding: ${(p) =>
     p.$fullHeight ? "0" : p.$padding || "80px 0"}; // ← chỉ padding dọc
 

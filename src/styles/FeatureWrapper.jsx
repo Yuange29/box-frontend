@@ -7,7 +7,7 @@ const FeatureWrapper = styled.div`
   gap: 24px;
   margin-top: 32px;
   width: 100%;
-  padđing: 8px;
+  padding: 8px;
   & > div {
     transition:
       opacity 0.3s ease,

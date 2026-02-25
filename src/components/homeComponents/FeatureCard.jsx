@@ -1,10 +1,44 @@
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const FeatureCard = ({ title, desc, direct, icon }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        const element = document.getElementById(hash);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+
+            element.style.transition =
+              "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)";
+            element.style.boxShadow = "0 0 20px rgba(248, 155, 41, 0.6)";
+            setTimeout(() => {
+              element.style.boxShadow = "";
+            }, 1500);
+          }, 300);
+        }
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   const handleReadMore = () => {
-    if (direct) {
-      const elementId = direct.replace("#", "");
-      const element = document.getElementById(elementId);
+    if (!direct) return;
+
+    const [path, anchor] = direct.split("#");
+
+    if (path && path !== location.pathname) {
+      navigate(path + "#" + (anchor || ""));
+    } else if (anchor) {
+      const element = document.getElementById(anchor);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }

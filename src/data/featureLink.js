@@ -12,7 +12,7 @@ export const featureLink = [
   {
     title: "Các danh mục",
     desc: "Xem lại các danh mục chi tiêu của bạn.",
-    direct: "/categories",
+    direct: "/categories/#list",
   },
   {
     title: "Tìm kiếm chi tiêu",

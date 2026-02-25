@@ -60,12 +60,9 @@ export default function AddCategoryForm({ isRefresh }) {
       setCategoryDescription("");
       isRefresh((prev) => !prev);
     } catch (error) {
-      const serverMessage = error?.response?.data?.message;
-      setError(
-        serverMessage
-          ? "Danh mục đã được tạo rồi"
-          : "Đã xảy ra lỗi khi tạo danh mục",
-      );
+      const serverMessage =
+        error?.response?.data?.message || error?.message || "Đã xảy ra lỗi khi tạo danh mục";
+      setError(serverMessage);
 
       console.error("Error creating category:", error);
     } finally {

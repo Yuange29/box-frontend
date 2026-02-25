@@ -11,8 +11,9 @@ import FogotPassword from "./pages/FogotPassword.jsx";
 import Loading from "./pages/Loading.jsx";
 import Categories from "./pages/Categories.jsx";
 
-import { AuthProvider, AuthContext } from "./Contexts/AuthContext";
+import { AuthProvider, AuthContext } from "./Contexts/AuthContext.jsx";
 import LoadingScreen from "./components/ui/LoadingScreen";
+import Fee from "./pages/Fee.jsx";
 
 function AppContent() {
   const { loading } = useContext(AuthContext);
@@ -36,6 +37,7 @@ function AppContent() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<FogotPassword />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/fee" element={<Fee />} />
       </Route>
       <Route path="/loading" element={<Loading />} />
     </Routes>
