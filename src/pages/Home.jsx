@@ -5,7 +5,7 @@ import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
 import FeatureCard from "../components/homeComponents/FeatureCard.jsx";
 import { Heading } from "../components/ui/Typography";
-import { featureLink } from "../data/featureLink.js";
+import { featureLink as link } from "../data/featureLink.js";
 import FeatureWrapper from "../styles/FeatureWrapper.jsx";
 
 export default function Home() {
@@ -26,14 +26,8 @@ export default function Home() {
             Một số tính năng:
           </Heading>
           <FeatureWrapper>
-            {featureLink.map((feature) => (
-              <FeatureCard
-                key={feature.title}
-                icon={feature.icon}
-                title={feature.title}
-                desc={feature.desc}
-                direct={feature.direct}
-              />
+            {link.map((link) => (
+              <FeatureCard key={link.title} {...link} />
             ))}
           </FeatureWrapper>
         </Container>
