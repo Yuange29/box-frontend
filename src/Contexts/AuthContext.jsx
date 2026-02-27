@@ -1,40 +1,36 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useEffect } from "react";
 import { useState } from "react";
-
-import { getInfo } from "../services/user.service";
-import { LoadingContext } from "./LoadingContext";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const { setLoadingPage } = useContext(LoadingContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          setUser(null);
-          setLoadingPage(false);
-          return;
-        }
+    if (
+      window.location.pathname !== "/loading" &&
+      window.location.pathname !== "/signin" &&
+      window.location.pathname !== "/signup" &&
+      !user
+    ) {
+      navigate("/loading");
+    }
+  }, [navigate, user]);
 
-        const response = await getInfo();
+  const login = (user) => {
+    setUser(user);
+    navigate("/");
+  };
 
-        setUser(response.data.result);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        setUser(null);
-      } finally {
-        setLoadingPage(false);
-      }
-    };
-    fetchUserInfo();
-  }, []);
-
-  const login = (user) => setUser(user);
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/signin");
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

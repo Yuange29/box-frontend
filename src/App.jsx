@@ -11,7 +11,7 @@ import Loading from "./pages/Loading.jsx";
 import Categories from "./pages/Categories.jsx";
 
 import { AuthProvider } from "./contexts/AuthContext.jsx";
-import { LoadingContext, LoadingProvider } from "./contexts/LoadingContext.jsx";
+import { LoadingProvider } from "./contexts/LoadingContext.jsx";
 import { DataProvider } from "./contexts/DataContext.jsx";
 
 import LoadingScreen from "./components/ui/LoadingScreen";
@@ -37,18 +37,16 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <LoadingProvider>
-        <AuthProvider>
-          <DataProvider>
-            {/* main page */}
-            <BrowserRouter>
+      <BrowserRouter>
+        <LoadingProvider>
+          <AuthProvider>
+            <DataProvider>
               <AppContent />
-            </BrowserRouter>
-            {/* main page */}
-          </DataProvider>
-        </AuthProvider>
-        <LoadingScreen />
-      </LoadingProvider>
+              <LoadingScreen />
+            </DataProvider>
+          </AuthProvider>
+        </LoadingProvider>
+      </BrowserRouter>
     </>
   );
 }
