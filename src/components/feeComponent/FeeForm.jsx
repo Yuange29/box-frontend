@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useEffect, useState, useContext } from "react";
+
+import { LoadingContext } from "../../contexts/LoadingContext";
+import { DataContext } from "../../contexts/DataContext";
 
 import { Button } from "../ui/Button";
-
-import { getCategories } from "../../services/category.service";
-import { createFee } from "../../services/fee.service";
 import { SmallText } from "../ui/Typography";
+
+import { createFee } from "../../services/fee.service";
 
 const FormBox = styled.div`
   .form {
@@ -74,11 +74,12 @@ const FormBox = styled.div`
 `;
 
 export default function FeeForm() {
-  const { setLoadData } = useContext(AuthContext);
+  const { setLoadingData } = useContext(LoadingContext);
+  const { categories, setLoadingFees, setLoadingCategories } =
+    useContext(DataContext);
 
   const [feeName, setFeeName] = useState("");
   const [feePrice, setFeePrice] = useState(0);
-  const [category, setCategory] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [feeDescription, setfeeDescription] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -86,21 +87,14 @@ export default function FeeForm() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        setLoadData(true);
+    if (categories.length === 0) {
+      setLoadingCategories(true);
+    }
 
-        const response = await getCategories();
-        if (response) setCategory(response.data.result);
-        setCategoryName(response.data.result[0].categoryName);
-      } catch (error) {
-        console.log("Lỗi: ", error);
-      } finally {
-        setLoadData(false);
-      }
-    };
-    fetchCategoryData();
-  }, []);
+    if (categories.length > 0) {
+      setCategoryName(categories[0].categoryName);
+    }
+  }, [categories, setLoadingCategories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,17 +106,19 @@ export default function FeeForm() {
     }
 
     try {
-      setLoadData(true);
+      setLoadingData(true);
 
       await createFee(feeName, feePrice, feeDescription, date, categoryName);
 
       setFeeName("");
       setFeePrice(0);
       setfeeDescription("");
+
+      setLoadingFees(true);
     } catch (error) {
       console.log("Lỗi: ", error);
     } finally {
-      setLoadData(false);
+      setLoadingData(false);
     }
   };
 
@@ -156,7 +152,7 @@ export default function FeeForm() {
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
         >
-          {category.map((item) => (
+          {categories.map((item) => (
             <option key={item.categoryName} value={item.categoryName}>
               {item.categoryName}
             </option>
@@ -180,7 +176,6 @@ export default function FeeForm() {
           required
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          defaultValue={today}
         />
 
         <Button type="submit">Thêm chi phí</Button>

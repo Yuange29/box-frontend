@@ -15,38 +15,23 @@ import FeeBox from "../components/feeComponent/FeeBox";
 import FeeForm from "../components/feeComponent/FeeForm";
 
 import { feeFeatures as links } from "../data/feeFeatures";
-import { getFees } from "../services/fee.service";
+import { DataContext } from "../contexts/DataContext";
 
 export default function Fee() {
   const { user } = useContext(AuthContext);
-  const { setLoadingData } = useContext(LoadingContext);
+  const { fees, setLoadingFees } = useContext(DataContext);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
-  const [fees, setFees] = useState([]);
-  const [error, setError] = useState(null);
-  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const memoizedLinks = useMemo(() => links, []);
 
   useEffect(() => {
-    const fetchFee = async () => {
-      setLoadingData(true);
-      try {
-        const response = await getFees();
-        setFees(response.data.result);
-        console.log("Fetched fees:", response.data.result);
-      } catch (error) {
-        console.error("Error fetching fees:", error);
-        setError(error);
-      } finally {
-        setLoadingData(false);
-      }
-    };
-    fetchFee();
-  }, [refresh, setLoadingData]);
+    setLoadingFees(true);
+  }, []);
+
   return (
     <>
-      <Section $fullHeight>
+      <Section>
         <Container>
           <Heading $level={1} style={{ textAlign: "center" }}>
             Các chi phí của bạn
@@ -71,10 +56,10 @@ export default function Fee() {
         </Container>
       </Section>
 
-      <Section id="recent">
+      <Section id="recent" $bgColor="var(--section-color)">
         <Container>
           <Heading $level={2}>Các chi phí gần đây: </Heading>
-          <FeeBox></FeeBox>
+          <FeeBox fees={fees} />
         </Container>
       </Section>
 
@@ -100,16 +85,6 @@ export default function Fee() {
           </Button>
         </Dialog>
       )}
-
-      <Dialog
-        title={"Có lỗi xảy ra"}
-        isOpen={isErrorDialogOpen}
-        onClose={() => setIsErrorDialogOpen(false)}
-      >
-        Đã có lỗi trong quá trình tải dữ liệu. Vui lòng thử lại sau.
-        <p>{error}</p>
-        <Button onClick={() => setIsErrorDialogOpen(false)}>Đóng</Button>
-      </Dialog>
     </>
   );
 }
