@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 const LoadingContext = createContext();
 
-function LoadingProvider({ child }) {
+function LoadingProvider({ children }) {
   const [loadingPage, setLoadingPage] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
@@ -10,7 +10,7 @@ function LoadingProvider({ child }) {
     <LoadingContext.Provider
       value={{ loadingPage, loadingData, setLoadingData, setLoadingPage }}
     >
-      {child}
+      {children}
     </LoadingContext.Provider>
   );
 }

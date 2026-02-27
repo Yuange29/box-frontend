@@ -1,35 +1,27 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Wrapper from "../../styles/FormWrapper";
 import Loading from "../ui/Loading";
 import { SmallText } from "../ui/Typography";
-
-import { login } from "../../services/auth.service";
-import { register, getInfo } from "../../services/user.service";
-import { AuthContext } from "../../Contexts/AuthContext";
 import Dialog from "../ui/Dialog";
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { LoadingContext } from "../../contexts/LoadingContext";
+
+import { register, getInfo } from "../../services/user.service";
+import { login } from "../../services/auth.service";
 
 export default function SignUpForm() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loadingData, setLoadingData } = useContext(LoadingContext);
   const [error, setError] = useState("");
   const { login: loginContext } = useContext(AuthContext);
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
-  const redirectTimer = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (redirectTimer.current) {
-        clearTimeout(redirectTimer.current);
-        redirectTimer.current = null;
-      }
-    };
-  }, []);
 
   const closeDialog = () => {
     if (redirectTimer.current) {
@@ -43,7 +35,7 @@ export default function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setLoadingData(true);
 
     if (
       userName.length < 6 ||
@@ -52,7 +44,7 @@ export default function SignUpForm() {
       email.length < 6
     ) {
       setError("Vui lòng kiểm tra lại các trường nhập");
-      setLoading(false);
+      setLoadingData(false);
       return;
     }
 
@@ -67,10 +59,7 @@ export default function SignUpForm() {
       loginContext(userInfo.data.result);
       setShowDialog(true);
 
-      redirectTimer.current = setTimeout(() => {
-        redirectTimer.current = null;
-        navigate("/");
-      }, 5000);
+      navigate("/");
     } catch (err) {
       setError(
         err.response?.data?.code === 1003
@@ -78,7 +67,7 @@ export default function SignUpForm() {
           : "Đăng kí thất bại",
       );
     } finally {
-      setLoading(false);
+      setLoadingData(false);
     }
   };
 
@@ -128,8 +117,8 @@ export default function SignUpForm() {
             <SmallText className="errText">Email chưa đúng</SmallText>
           )}
 
-          <button type="submit" disabled={loading}>
-            {loading ? <Loading /> : "Đăng kí"}
+          <button type="submit" disabled={loadingData}>
+            {loadingData ? <Loading /> : "Đăng kí"}
           </button>
         </form>
 

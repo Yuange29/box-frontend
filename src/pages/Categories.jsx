@@ -1,7 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../Contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
+import { LoadingContext } from "../contexts/LoadingContext";
+import { DataContext } from "../contexts/DataContext";
 
 import { Heading } from "../components/ui/Typography";
 import { Button } from "../components/ui/Button";
@@ -14,38 +16,15 @@ import CategoriesBox from "../components/categoryComponent/CategoriesBox";
 import AddCategoryForm from "../components/categoryComponent/AddCategoryForm";
 import SearchBar from "../components/categoryComponent/SearchBar";
 
-import { getCategories } from "../services/category.service";
 import { categoryFeatures as links } from "../data/categoryFeatures";
 
 export default function Categories() {
-  const { user, setLoadData } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { categories, setLoadingCategories } = useContext(DataContext);
   const [isOpen, setIsOpen] = useState(true);
-  const [categories, setCategories] = useState([]);
-
   const navigate = useNavigate();
 
-  const [refresh, setRefresh] = useState(false);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoadData(true);
-        const response = await getCategories();
-        setCategories(response.data.result);
-      } catch (error) {
-        console.error(
-          "Error fetching categories:",
-          error?.response?.data || error?.message,
-        );
-      } finally {
-        setLoadData(false);
-      }
-    };
-    if (user) {
-      fetchCategories();
-    }
-  }, [user, refresh, setLoadData]);
-
+  useEffect(() => setLoadingCategories(true), []);
   return (
     <>
       <Section>
@@ -83,14 +62,14 @@ export default function Categories() {
       <Section id="list" $bgColor="var(--section-color)">
         <Container>
           <Heading $level={2}>Các danh mục chi tiêu của bạn</Heading>
-          <CategoriesBox categories={categories} onRefresh={setRefresh} />
+          <CategoriesBox categories={categories} />
         </Container>
       </Section>
 
       <Section id="add">
         <Container>
           <Heading $level={2}>Thêm danh mục mới</Heading>
-          <AddCategoryForm isRefresh={setRefresh} />
+          <AddCategoryForm />
         </Container>
       </Section>
 

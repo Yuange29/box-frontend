@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useContext } from "react";
 
-import { AuthContext } from "../../Contexts/AuthContext";
-import { Text } from "../ui/Typography";
+import { LoadingContext } from "../../contexts/LoadingContext";
+import { DataContext } from "../../contexts/DataContext";
 
 import { deleteCategory } from "../../services/category.service";
 
@@ -76,8 +76,9 @@ const Child = styled.div`
   }
 `;
 
-export default function CategoriesBox({ categories, onRefresh }) {
-  const { setLoadData } = useContext(AuthContext);
+export default function CategoriesBox({ categories }) {
+  const { setLoadingData } = useContext(LoadingContext);
+  const { setLoadingCategories } = useContext(DataContext);
 
   const handleDelete = async (categoryId) => {
     if (!categoryId) return;
@@ -90,21 +91,18 @@ export default function CategoriesBox({ categories, onRefresh }) {
     if (!confirm) return;
 
     try {
-      setLoadData(true);
+      setLoadingData(true);
 
       await deleteCategory(categoryId);
 
-      if (typeof onRefresh === "function") onRefresh((prev) => !prev);
-      else {
-        window.location.reload();
-      }
+      setLoadingCategories(true);
     } catch (err) {
       console.error("Error deleting category:", err);
       const msg =
         err?.response?.data?.message || err?.message || "Xóa thất bại";
       alert(msg);
     } finally {
-      setLoadData(false);
+      setLoadingData(false);
     }
   };
 

@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 
 import { Button } from "../ui/Button";
-import { createCategory } from "../../services/category.service";
 import Loading from "../ui/Loading";
+
+import { LoadingContext } from "../../contexts/LoadingContext";
+
+import { createCategory } from "../../services/category.service";
+import { DataContext } from "../../contexts/DataContext";
 
 const Form = styled.form`
   width: 80%;
@@ -29,25 +34,27 @@ const Input = styled.input`
   }
 `;
 
-export default function AddCategoryForm({ isRefresh }) {
+export default function AddCategoryForm() {
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { loadingData, setLoadingData } = useContext(LoadingContext);
+  const { setLoadingCategories } = useContext(DataContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoadingData(true);
 
     if (!categoryName.trim()) {
       setError("Tên danh mục không được để trống");
-      setIsLoading(false);
+      setLoadingData(false);
       return;
     }
 
     if (categoryName.length < 6) {
       setError("Tên danh mục phải có ít nhất 6 ký tự");
-      setIsLoading(false);
+      setLoadingData(false);
       return;
     }
 
@@ -58,15 +65,18 @@ export default function AddCategoryForm({ isRefresh }) {
 
       setCategoryName("");
       setCategoryDescription("");
-      isRefresh((prev) => !prev);
+
+      setLoadingCategories(true);
     } catch (error) {
       const serverMessage =
-        error?.response?.data?.message || error?.message || "Đã xảy ra lỗi khi tạo danh mục";
+        error?.response?.data?.message ||
+        error?.message ||
+        "Đã xảy ra lỗi khi tạo danh mục";
       setError(serverMessage);
 
       console.error("Error creating category:", error);
     } finally {
-      setIsLoading(false);
+      setLoadingData(false);
     }
   };
 
@@ -84,8 +94,8 @@ export default function AddCategoryForm({ isRefresh }) {
         placeholder="Nhập mô tả danh mục"
         onChange={(e) => setCategoryDescription(e.target.value)}
       />
-      <Button type="submit" disabled={isLoading}>
-        {isLoading ? <Loading /> : "Thêm danh mục"}
+      <Button type="submit" disabled={loadingData}>
+        {loadingData ? <Loading /> : "Thêm danh mục"}
       </Button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </Form>

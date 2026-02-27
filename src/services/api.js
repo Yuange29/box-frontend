@@ -6,7 +6,6 @@ export const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
-
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
@@ -27,6 +26,14 @@ api.interceptors.response.use(
 
       const refreshToken = localStorage.getItem("refreshToken");
 
+      if (!refreshToken) {
+        localStorage.removeItem("accessToken");
+        if (window.location.pathname !== "/signin") {
+          window.location.href = "/signin";
+        }
+        return Promise.reject(error);
+      }
+
       try {
         const response = await axios.post(
           "https://box-backend-l8sq.onrender.com/storage/auth/refresh",
@@ -40,15 +47,22 @@ api.interceptors.response.use(
         localStorage.setItem("refreshToken", newRefreshToken);
 
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
         return api(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/signin";
+
+        if (window.location.pathname !== "/signin") {
+          window.location.href = "/signin";
+        }
+
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   },
 );
+
 export default api;

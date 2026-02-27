@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./styles/GlobalStyle";
 
 import MainLayout from "./layout/MainLayout";
@@ -11,24 +10,14 @@ import FogotPassword from "./pages/FogotPassword.jsx";
 import Loading from "./pages/Loading.jsx";
 import Categories from "./pages/Categories.jsx";
 
-import { AuthProvider, AuthContext } from "./Contexts/AuthContext.jsx";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
+import { LoadingContext, LoadingProvider } from "./contexts/LoadingContext.jsx";
+import { DataProvider } from "./contexts/DataContext.jsx";
+
 import LoadingScreen from "./components/ui/LoadingScreen";
 import Fee from "./pages/Fee.jsx";
 
 function AppContent() {
-  const { loading } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && window.location.pathname === "/loading") {
-      navigate("/");
-    }
-  }, [loading, navigate]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -48,12 +37,18 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+      <LoadingProvider>
+        <AuthProvider>
+          <DataProvider>
+            {/* main page */}
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+            {/* main page */}
+          </DataProvider>
+        </AuthProvider>
         <LoadingScreen />
-      </AuthProvider>
+      </LoadingProvider>
     </>
   );
 }

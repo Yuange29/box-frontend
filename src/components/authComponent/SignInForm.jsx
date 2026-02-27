@@ -7,20 +7,22 @@ import Dialog from "../ui/Dialog";
 import Loading from "../ui/Loading";
 import { SmallText, Text } from "../ui/Typography";
 import { getInfo } from "../../services/user.service";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
+import { LoadingContext } from "../../contexts/LoadingContext.jsx";
 
 const SignInForm = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const { loadingData, setLoadingData } = useContext(LoadingContext);
   const { login: loginContext } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoadingData(true);
 
     if (!userName || !password) {
       setError("Vui lòng điền tên tài khoản và mật khẩu");
@@ -28,7 +30,6 @@ const SignInForm = () => {
     }
 
     try {
-      setLoading(true);
       const response = await login(userName, password);
 
       const accessToken = response.data.result.accessToken;
@@ -43,11 +44,11 @@ const SignInForm = () => {
       setShowDialog(true);
 
       navigate("/");
-    } catch (err) {
+    } catch (error) {
       setShowDialog(true);
-      console.error("Login failed:", err);
+      console.error("Login failed:", error);
     } finally {
-      setLoading(false);
+      setLoadingData(false);
     }
   };
 
@@ -86,8 +87,8 @@ const SignInForm = () => {
               Quên mật khẩu?
             </Text>
 
-            <button type="submit" disabled={loading}>
-              {loading ? <Loading /> : "Đăng nhập"}
+            <button type="submit" disabled={loadingData}>
+              {loadingData ? <Loading /> : "Đăng nhập"}
             </button>
           </form>
           <p className="signup">

@@ -1,13 +1,14 @@
-import { createContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
+
 import { getInfo } from "../services/user.service";
+import { LoadingContext } from "./LoadingContext";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [loadData, setLoadData] = useState(false);
+  const { setLoadingPage } = useContext(LoadingContext);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -15,7 +16,7 @@ function AuthProvider({ children }) {
         const token = localStorage.getItem("accessToken");
         if (!token) {
           setUser(null);
-          setLoading(false);
+          setLoadingPage(false);
           return;
         }
 
@@ -26,7 +27,7 @@ function AuthProvider({ children }) {
         console.error("Error fetching user info:", error);
         setUser(null);
       } finally {
-        setLoading(false);
+        setLoadingPage(false);
       }
     };
     fetchUserInfo();
@@ -36,9 +37,7 @@ function AuthProvider({ children }) {
   const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider
-      value={{ user, login, logout, loading, loadData, setLoadData }}
-    >
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

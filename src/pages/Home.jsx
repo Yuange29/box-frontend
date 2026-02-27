@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../Contexts/AuthContext.jsx";
+import { AuthContext } from "../contexts/AuthContext.jsx";
 
 import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";

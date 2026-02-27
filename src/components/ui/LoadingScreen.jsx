@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import Loading from "./Loading";
-import { AuthContext } from "../../Contexts/AuthContext";
+import { LoadingContext } from "../../contexts/LoadingContext";
 
 const Overlay = styled.div`
   position: fixed;
@@ -94,9 +93,9 @@ const Loader = () => {
 };
 
 export default function LoadingScreen() {
-  const { loadData } = useContext(AuthContext) || {};
+  const { loadingData } = useContext(LoadingContext) || {};
 
-  if (!loadData) return null;
+  if (!loadingData) return null;
 
   return (
     <Overlay>

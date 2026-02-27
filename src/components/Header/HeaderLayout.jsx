@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { getLinks } from "../../data/navLinks.js";
 import logoImg from "../../assets/img/logo-img.png";
 

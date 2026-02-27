@@ -1,23 +1,27 @@
+import { useState, useContext } from "react";
+
 import Wrapper from "../../styles/FormWrapper";
-import { useState } from "react";
 import { SmallText } from "../ui/Typography";
 import Dialog from "../ui/Dialog";
 import Loading from "../ui/Loading";
 
+import { LoadingContext } from "../../contexts/LoadingContext";
+
 export default function FogotPasswordForm() {
   const [userName, setUserName] = useState("");
   const [identifier, setIdentifier] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [error, setError] = useState(false);
 
+  const { loadingData, setLoadingData } = useContext(LoadingContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoadingData(true);
 
     if (userName.length < 6 || identifier.length < 6) {
       setError(true);
-      setIsLoading(false);
+      setLoadingData(false);
       return;
     }
     try {
@@ -26,7 +30,7 @@ export default function FogotPasswordForm() {
     } catch (err) {
       setError("Không tìm thấy tài khoảng", err);
     } finally {
-      setIsLoading(false);
+      setLoadingData(false);
     }
   };
 
@@ -59,8 +63,8 @@ export default function FogotPasswordForm() {
             </SmallText>
           )}
 
-          <button type="submit" className="btn" disabled={isLoading}>
-            {isLoading ? <Loading /> : "Gửi yêu cầu"}
+          <button type="submit" className="btn" disabled={loadingData}>
+            {loadingData ? <Loading /> : "Gửi yêu cầu"}
           </button>
         </form>
 

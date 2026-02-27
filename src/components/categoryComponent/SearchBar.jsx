@@ -50,7 +50,7 @@ const Result = styled.div`
 const getCategoryName = (category) =>
   category?.categoryName || category?.name || "";
 
-const SearchBar = ({ categories = [] }) => {
+const SearchBar = ({ categories }) => {
   const [keyword, setKeyword] = useState("");
   const [hasNoResult, setHasNoResult] = useState(false);
 
@@ -86,6 +86,7 @@ const SearchBar = ({ categories = [] }) => {
           onChange={(e) => setKeyword(e.target.value)}
         />
       </SearchContainer>
+
       {(results.length > 0 || hasNoResult) && (
         <Result>
           {hasNoResult ? (

@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState, useMemo } from "react";
-import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../contexts/AuthContext";
+import { LoadingContext } from "../contexts/LoadingContext";
 
 import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
@@ -16,10 +18,10 @@ import { feeFeatures as links } from "../data/feeFeatures";
 import { getFees } from "../services/fee.service";
 
 export default function Fee() {
-  const { user, setLoadData } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { setLoadingData } = useContext(LoadingContext);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
-  //   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [fees, setFees] = useState([]);
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
@@ -28,7 +30,7 @@ export default function Fee() {
 
   useEffect(() => {
     const fetchFee = async () => {
-      setLoadData(true);
+      setLoadingData(true);
       try {
         const response = await getFees();
         setFees(response.data.result);
@@ -37,11 +39,11 @@ export default function Fee() {
         console.error("Error fetching fees:", error);
         setError(error);
       } finally {
-        setLoadData(false);
+        setLoadingData(false);
       }
     };
     fetchFee();
-  }, [refresh, setLoadData]);
+  }, [refresh, setLoadingData]);
   return (
     <>
       <Section $fullHeight>
@@ -108,16 +110,6 @@ export default function Fee() {
         <p>{error}</p>
         <Button onClick={() => setIsErrorDialogOpen(false)}>Đóng</Button>
       </Dialog>
-
-      {/* <Dialog
-        title={fees}
-        isOpen={isDetailsDialogOpen}
-        onClose={() => setIsDetailsDialogOpen(false)}
-      >
-        Đã có lỗi trong quá trình tải dữ liệu. Vui lòng thử lại sau.
-        <p>{error}</p>
-        <Button onClick={() => setIsDetailsDialogOpen(false)}>Đóng</Button>
-      </Dialog> */}
     </>
   );
 }
