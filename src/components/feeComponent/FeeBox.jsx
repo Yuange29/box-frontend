@@ -3,6 +3,7 @@ import { useContext } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
+import { ConfirmContext } from "../../contexts/ConfirmContext";
 
 import { deleteFee } from "../../services/fee.service";
 
@@ -74,8 +75,17 @@ const FeeItem = styled.div`
 function FeeCard({ fee }) {
   const { setLoadingData } = useContext(LoadingContext);
   const { setLoadingFees } = useContext(DataContext);
+  const { confirm } = useContext(ConfirmContext);
 
   const handleDelete = async (feeId) => {
+    const ok = await confirm({
+      title: "Xóa chi tiêu",
+      message: "Bạn chắc chắn muốn xóa chi tiêu này chứ!",
+      danger: true,
+    });
+
+    if (!ok) return;
+
     try {
       setLoadingData(true);
       await deleteFee(feeId);

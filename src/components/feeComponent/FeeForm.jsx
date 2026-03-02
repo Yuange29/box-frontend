@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
+import { ToastContext } from "../../contexts/ToastContext";
 
 import { Button } from "../ui/Button";
 import { SmallText } from "../ui/Typography";
@@ -77,6 +78,7 @@ export default function FeeForm() {
   const { setLoadingData } = useContext(LoadingContext);
   const { categories, setLoadingFees, setLoadingCategories } =
     useContext(DataContext);
+  const { toast } = useContext(ToastContext);
 
   const [feeName, setFeeName] = useState("");
   const [feePrice, setFeePrice] = useState(0);
@@ -114,6 +116,7 @@ export default function FeeForm() {
       setFeePrice(0);
       setfeeDescription("");
 
+      toast.success("Thêm thành công");
       setLoadingFees(true);
     } catch (error) {
       console.log("Lỗi: ", error);

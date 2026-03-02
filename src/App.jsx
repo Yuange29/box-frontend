@@ -13,6 +13,8 @@ import Categories from "./pages/Categories.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { LoadingProvider } from "./contexts/LoadingContext.jsx";
 import { DataProvider } from "./contexts/DataContext.jsx";
+import { ToastProvider } from "./contexts/ToastContext.jsx";
+import { ConfirmProvider } from "./contexts/ConfirmContext.jsx";
 
 import LoadingScreen from "./components/ui/LoadingScreen";
 import Fee from "./pages/Fee.jsx";
@@ -39,12 +41,16 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <LoadingProvider>
-          <AuthProvider>
-            <DataProvider>
-              <AppContent />
-              <LoadingScreen />
-            </DataProvider>
-          </AuthProvider>
+          <ToastProvider>
+            <ConfirmProvider>
+              <AuthProvider>
+                <DataProvider>
+                  <AppContent />
+                  <LoadingScreen />
+                </DataProvider>
+              </AuthProvider>
+            </ConfirmProvider>
+          </ToastProvider>
         </LoadingProvider>
       </BrowserRouter>
     </>
