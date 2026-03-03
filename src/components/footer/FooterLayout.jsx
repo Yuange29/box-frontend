@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { footerData } from "../../data/generalData.js";
+import { Heading, Text } from "../ui/Typography.jsx";
 
 const Footer = styled.footer`
   width: 100%;
@@ -9,7 +10,7 @@ const Footer = styled.footer`
   gap: 16px;
   padding: 40px 24px;
   box-sizing: border-box;
-  background-color: var(--footer-color);
+  background-color: var(--bg-section);
 `;
 
 const InformationCard = styled.div`
@@ -34,13 +35,6 @@ const InformationCard = styled.div`
     flex: 1 1 100%;
     font-size: 16px;
   }
-`;
-
-const InformationTitle = styled.h3`
-  margin-bottom: 12px;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
 `;
 
 const InformationList = styled.ul`
@@ -80,10 +74,12 @@ const Copyright = styled.div`
 function ShowData({ title, inf }) {
   return (
     <InformationCard>
-      <InformationTitle>{title}</InformationTitle>
+      <Heading $level={4}>{title}</Heading>
       <InformationList>
         {inf.map((e, index) => (
-          <InformationChild key={index}>{e}</InformationChild>
+          <InformationChild key={index}>
+            <Text>{e}</Text>
+          </InformationChild>
         ))}
       </InformationList>
     </InformationCard>

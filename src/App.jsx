@@ -9,6 +9,7 @@ import SignUp from "./pages/SignUp.jsx";
 import FogotPassword from "./pages/FogotPassword.jsx";
 import Loading from "./pages/Loading.jsx";
 import Categories from "./pages/Categories.jsx";
+import Profile from "./pages/Profile.jsx";
 
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { LoadingProvider } from "./contexts/LoadingContext.jsx";
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/forgot-password" element={<FogotPassword />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/fee" element={<Fee />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
       <Route path="/loading" element={<Loading />} />
     </Routes>

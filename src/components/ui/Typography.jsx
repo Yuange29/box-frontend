@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Heading = styled.h1`
   font-weight: 700;
   line-height: 1.2;
-  color: var(--text-color);
+  color: var(--text-primary);
 
   font-size: ${(p) => {
     switch (p.$level) {
@@ -39,10 +39,10 @@ export const Heading = styled.h1`
 export const Text = styled.p`
   font-size: 18px;
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--text-secondary);
 `;
 
 export const SmallText = styled.span`
   font-size: 16px;
-  color: var(--text-color);
+  color: var(--text-muted);
 `;

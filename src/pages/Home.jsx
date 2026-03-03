@@ -20,7 +20,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section $bgColor="var(--section-color)">
+      <Section $bgColor="var(--bg-section)">
         <Container>
           <Heading $level={2} style={{ color: "var(--cotton-color)" }}>
             Một số tính năng:

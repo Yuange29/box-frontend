@@ -1,14 +1,14 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
-import { Navigate } from "react-router-dom";
 
 import { Button } from "../ui/Button";
 import Loading from "../ui/Loading";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
+import { DataContext } from "../../contexts/DataContext";
+import { ToastContext } from "../../contexts/ToastContext";
 
 import { createCategory } from "../../services/category.service";
-import { DataContext } from "../../contexts/DataContext";
 
 const Form = styled.form`
   width: 80%;
@@ -17,18 +17,32 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 `;
 
 const Input = styled.input`
   width: 50%;
   padding: 10px 20px;
   font-size: 16px;
-  border: 0;
-  margin: 15px;
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  margin: 8px 0;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
 
   &:focus {
     outline: 0;
+    border-color: var(--border-hover);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
   }
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -37,44 +51,39 @@ const Input = styled.input`
 export default function AddCategoryForm() {
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
-  const [error, setError] = useState("");
 
   const { loadingData, setLoadingData } = useContext(LoadingContext);
   const { setLoadingCategories } = useContext(DataContext);
+  const { toast } = useContext(ToastContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoadingData(true);
 
     if (!categoryName.trim()) {
-      setError("Tên danh mục không được để trống");
+      toast.error("Tên danh mục không được để trống");
       setLoadingData(false);
       return;
     }
 
     if (categoryName.length < 6) {
-      setError("Tên danh mục phải có ít nhất 6 ký tự");
+      toast.error("Tên danh mục phải có ít nhất 6 ký tự");
       setLoadingData(false);
       return;
     }
 
-    setError("");
-
     try {
       await createCategory(categoryName, categoryDescription);
-
       setCategoryName("");
       setCategoryDescription("");
-
+      toast.success("Thêm danh mục thành công!");
       setLoadingCategories(true);
     } catch (error) {
       const serverMessage =
         error?.response?.data?.message ||
         error?.message ||
         "Đã xảy ra lỗi khi tạo danh mục";
-      setError(serverMessage);
-
-      console.error("Error creating category:", error);
+      toast.error(serverMessage);
     } finally {
       setLoadingData(false);
     }
@@ -97,7 +106,6 @@ export default function AddCategoryForm() {
       <Button type="submit" disabled={loadingData}>
         {loadingData ? <Loading /> : "Thêm danh mục"}
       </Button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </Form>
   );
 }

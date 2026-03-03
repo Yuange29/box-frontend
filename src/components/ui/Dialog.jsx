@@ -16,7 +16,7 @@ const fadeIn = keyframes`
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,35 +24,48 @@ const Overlay = styled.div`
 `;
 
 const DialogBox = styled.div`
-  background: #fff;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   width: 400px;
   max-width: 90%;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   animation: ${fadeIn} 0.2s ease;
 `;
 
 const Header = styled.div`
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
 const CloseButton = styled.button`
-  background: #fff;
+  background: transparent;
   border: none;
   font-size: 16px;
   cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
 `;
 
 const Content = styled.div`
-  padding: 16px;
+  padding: 20px;
+  color: var(--text-secondary);
+  line-height: 1.6;
 `;
 
 const Footer = styled.div`
-  padding: 12px 16px;
-  border-top: 1px solid #eee;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-primary);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
@@ -68,9 +81,7 @@ const Dialog = ({ isOpen, onClose, title, children }) => {
           <Heading>{title}</Heading>
           <CloseButton onClick={onClose}>✕</CloseButton>
         </Header>
-
         <Content>{children}</Content>
-
         <Footer>
           <Button $variant="secondary" onClick={onClose}>
             Đóng

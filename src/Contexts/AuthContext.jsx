@@ -2,6 +2,8 @@ import { createContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { logout } from "../services/auth.service";
+
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
@@ -25,15 +27,21 @@ function AuthProvider({ children }) {
     navigate("/");
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    navigate("/signin");
+  const logoutUser = () => {
+    const token = localStorage.getItem("accessToken");
+
+    logout(token);
+
+    setTimeout(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      setUser(null);
+      navigate("/signin");
+    }, 3000);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

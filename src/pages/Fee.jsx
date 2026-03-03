@@ -39,7 +39,7 @@ export default function Fee() {
         </Container>
       </Section>
 
-      <Section $bgColor="var(--section-color)">
+      <Section $bgColor="var(--bg-section)">
         <Container>
           <Heading $level={2}>Các tính năng</Heading>
           <FeatureWrapper>
@@ -56,7 +56,7 @@ export default function Fee() {
         </Container>
       </Section>
 
-      <Section id="recent" $bgColor="var(--section-color)">
+      <Section id="recent" $bgColor="var(--bg-section)">
         <Container>
           <Heading $level={2}>Các chi phí gần đây: </Heading>
           <FeeBox fees={fees} />

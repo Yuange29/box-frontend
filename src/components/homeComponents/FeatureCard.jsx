@@ -55,9 +55,7 @@ const FeatureCard = ({ title, desc, direct, icon }) => {
         </div>
         <div className="content">
           <h3 className="heading">{title || "Feature"}</h3>
-          <p className="para">
-            {desc || "Enhance your experience with our amazing features"}
-          </p>
+          <p className="para">{desc || "Chưa có mô tả"}</p>
           <button className="btn" onClick={handleReadMore}>
             →
           </button>
@@ -86,9 +84,9 @@ const StyledWrapper = styled.div`
     padding: 32px;
     overflow: hidden;
     border-radius: 12px;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: var(--bg-card);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-primary);
     box-sizing: border-box;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
@@ -96,8 +94,8 @@ const StyledWrapper = styled.div`
 
   .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 16px 32px rgba(248, 155, 41, 0.2);
-    border-color: rgba(255, 15, 123, 0.3);
+    box-shadow: 0 16px 32px rgba(255, 255, 255, 0.05);
+    border-color: var(--border-hover);
   }
 
   .icon-section {
@@ -111,14 +109,16 @@ const StyledWrapper = styled.div`
     justify-content: center;
     width: 54px;
     height: 54px;
-    background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-primary);
     border-radius: 10px;
     transition: all 0.4s ease;
   }
 
   .card:hover .icon-wrapper {
     transform: scale(1.1) rotateZ(10deg);
-    box-shadow: 0 8px 16px rgba(248, 155, 41, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-hover);
   }
 
   .content {
@@ -132,53 +132,46 @@ const StyledWrapper = styled.div`
   .content .heading {
     font-weight: 700;
     font-size: 24px;
-    color: #ffffff;
     margin: 0;
+    color: var(--text-primary);
     transition: color 0.3s ease;
-    background: linear-gradient(135deg, #f89b29 0%, #ff0f7b 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
   .card:hover .heading {
-    -webkit-text-fill-color: unset;
-    color: #f89b29;
+    color: var(--text-secondary);
   }
 
   .content .para {
     font-size: 18px;
     line-height: 1.6;
-    color: #b0b0b0;
+    color: var(--text-muted);
     margin: 0;
     flex: 1;
     transition: color 0.3s ease;
   }
 
   .card:hover .para {
-    color: #e8e8e8;
+    color: var(--text-secondary);
   }
 
   .content .btn {
     align-self: flex-start;
-    color: #e8e8e8;
+    color: var(--btn-primary-text);
     padding: 10px 20px;
     font-weight: 600;
     font-size: 14px;
-    border: 2px solid transparent;
+    border: 1px solid var(--border-primary);
     cursor: pointer;
-    background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+    background: var(--btn-primary);
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(248, 155, 41, 0.3);
     transition: all 0.3s ease;
     margin-top: auto;
   }
 
   .content .btn:hover {
-    background: transparent;
-    border-color: #f89b29;
-    color: #f89b29;
-    box-shadow: inset 0 0 0 1px rgba(248, 155, 41, 0.5);
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
     transform: translateX(6px);
   }
 
@@ -193,7 +186,12 @@ const StyledWrapper = styled.div`
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #f89b29, transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border-hover),
+      transparent
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
   }

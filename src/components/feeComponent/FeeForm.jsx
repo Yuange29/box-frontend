@@ -14,23 +14,23 @@ const FormBox = styled.div`
   .form {
     width: 450px;
     margin: 2rem auto;
-    border: 1px solid var(--green-bean);
+    border: 1px solid var(--border-primary);
     border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0.5rem;
-    background-color: #265c001b;
+    background-color: var(--bg-card);
+    padding-bottom: 1.5rem;
   }
 
   label {
     margin-top: 1rem;
-    color: var(--text-color);
     font-size: 1.2rem;
     align-self: flex-start;
     margin-left: 2rem;
-    color: var(--text-color);
+    color: var(--text-secondary);
     font-weight: bold;
   }
 
@@ -44,9 +44,18 @@ const FormBox = styled.div`
     text-indent: 10px;
     letter-spacing: 2px;
     font-weight: bold;
-    color: var(--text-color);
-    border: 1px solid #15503c;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: 16px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-muted);
   }
 
   textarea {
@@ -57,14 +66,16 @@ const FormBox = styled.div`
   input:hover,
   textarea:hover,
   select:hover {
-    box-shadow: 2px 5px 20px 2px #15503c;
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   }
 
   input:focus,
   textarea:focus,
   select:focus {
     outline: 0;
-    box-shadow: 2px 5px 5px 2px #15503c;
+    border-color: var(--border-hover);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
   }
 
   @media (max-width: 768px) {

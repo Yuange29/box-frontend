@@ -3,6 +3,8 @@ import { useContext } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
+import { ConfirmContext } from "../../contexts/ConfirmContext";
+import { ToastContext } from "../../contexts/ToastContext";
 
 import { deleteCategory } from "../../services/category.service";
 
@@ -12,7 +14,7 @@ const BoxContainer = styled.div`
   box-sizing: border-box;
 
   .inf {
-    color: var(--cotton-color);
+    color: var(--text-muted);
     font-size: 18px;
     text-align: center;
     margin-top: 40px;
@@ -29,13 +31,20 @@ const Child = styled.div`
   gap: 0 12px;
   align-items: center;
   padding: 5px;
-  background: #f5f5f5;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-hover);
+  }
 
   .content {
     font-size: 18px;
     font-weight: 500;
+    color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -55,23 +64,24 @@ const Child = styled.div`
     justify-content: center;
 
     &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       transform: translateY(-2px);
     }
+
     &:active {
       opacity: 0.8;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
       transform: translateY(0);
     }
   }
 
   .more-btn {
-    background: #176782;
-    color: white;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
   }
 
   .delete-btn {
-    background: #dc3545;
+    background: var(--error);
     color: white;
   }
 `;
@@ -79,28 +89,32 @@ const Child = styled.div`
 export default function CategoriesBox({ categories }) {
   const { setLoadingData } = useContext(LoadingContext);
   const { setLoadingCategories } = useContext(DataContext);
+  const { confirm } = useContext(ConfirmContext);
+  const { toast } = useContext(ToastContext);
 
   const handleDelete = async (categoryId) => {
     if (!categoryId) return;
 
     const category = categories.find((c) => c.categoryId === categoryId);
-
     const name = category?.categoryName;
 
-    const confirm = window.confirm(`Xóa danh mục "${name}" ?`);
-    if (!confirm) return;
+    const ok = await confirm({
+      title: "Xóa danh mục",
+      message: `Bạn có chắc muốn xóa danh mục "${name}" không?`,
+      danger: true,
+    });
+
+    if (!ok) return;
 
     try {
       setLoadingData(true);
-
       await deleteCategory(categoryId);
-
+      toast.success(`Xóa danh mục "${name}" thành công!`);
       setLoadingCategories(true);
     } catch (err) {
-      console.error("Error deleting category:", err);
       const msg =
         err?.response?.data?.message || err?.message || "Xóa thất bại";
-      alert(msg);
+      toast.error(msg);
     } finally {
       setLoadingData(false);
     }
@@ -112,11 +126,11 @@ export default function CategoriesBox({ categories }) {
         categories.map((category) => (
           <Child key={category.id || category.categoryId || category._id}>
             <p className="content">{category.categoryName || category.name}</p>
-            <button className=" more-btn">
+            <button className="more-btn">
               <i className="fa-solid fa-plus"></i>
             </button>
             <button
-              className=" delete-btn"
+              className="delete-btn"
               onClick={() => handleDelete(category.categoryId)}
             >
               <i className="fa-solid fa-trash"></i>

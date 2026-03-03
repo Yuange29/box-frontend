@@ -6,7 +6,7 @@ import HeaderLayout from "../components/Header/HeaderLayout";
 const Main = styled.main`
   min-height: calc(100vh - 64px - 120px);
   padding-top: 64px;
-  background-color: var(--background-color);
+  background-color: var(--bg-secondary);
   display: flex;
   flex-direction: column;
 `;

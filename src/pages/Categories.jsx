@@ -52,14 +52,14 @@ export default function Categories() {
         </Container>
       </Section>
 
-      <Section id="find" $bgColor="var(--section-color)">
+      <Section id="find" $bgColor="var(--bg-section)">
         <Container>
           <Heading $level={2}>Tìm danh mục chi tiêu</Heading>
           <SearchBar categories={categories} />
         </Container>
       </Section>
 
-      <Section id="list" $bgColor="var(--section-color)">
+      <Section id="list" $bgColor="var(--bg-section)">
         <Container>
           <Heading $level={2}>Các danh mục chi tiêu của bạn</Heading>
           <CategoriesBox categories={categories} />

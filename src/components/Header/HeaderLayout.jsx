@@ -9,7 +9,7 @@ import logoImg from "../../assets/img/logo-img.png";
 const Header = styled.header`
   height: 64px;
   padding: 0 24px;
-  background: var(--emerald-color);
+  background: var(--nav-bg);
   border-bottom: 1px solid #eee;
 
   display: flex;
@@ -48,7 +48,7 @@ const NavButton = styled(NavLink)`
   padding: 8px 16px;
   font-size: 18px;
   font-weight: 600;
-  color: var(--cotton-color);
+  color: var(--text-primary);
   text-decoration: none;
   border-radius: 8px 8px 0 0;
   transition: all 0.25s ease;
@@ -58,8 +58,8 @@ const NavButton = styled(NavLink)`
   }
 
   &.active {
-    background-color: var(--cotton-color);
-    color: var(--emerald-color);
+    background-color: var(--text-primary);
+    color: var(--text-muted);
   }
 
   &:active {
@@ -71,7 +71,7 @@ const MobileNavButton = styled.button`
   background: transparent;
   border: 0;
   font-size: 22px;
-  color: var(--cotton-color);
+  color: var(--text-primary);
   cursor: pointer;
 
   @media (min-width: 769px) {
@@ -104,7 +104,7 @@ const NavBar = styled.div`
   flex-direction: column;
   gap: 16px;
 
-  background-color: var(--mobile-nav-side);
+  background-color: var(--nav-bg);
   z-index: 200;
 
   transform: translateX(${(p) => (p.open ? "0" : "-100%")});

@@ -6,3 +6,7 @@ export const login = (userName, password) => {
     password,
   });
 };
+
+export const logout = (token) => {
+  return api.post("auth/logout", { token });
+};

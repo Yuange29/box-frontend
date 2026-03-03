@@ -24,15 +24,19 @@ export const Button = styled.button`
   ${baseStyle};
 
   background-color: ${(p) =>
-    p.$buttonType === "secondary" ? "transparent" : "var(--emerald-color)"};
+    p.$buttonType === "secondary"
+      ? "var(--btn-secondary)"
+      : "var(--btn-primary)"};
 
   color: ${(p) =>
     p.$buttonType === "secondary"
-      ? "var(--emerald-color)"
-      : "var(--cotton-color)"};
+      ? "var(--text-muted)"
+      : "var(--btn-primary-text)"};
 
   border: ${(p) =>
-    p.$buttonType === "secondary" ? "2px solid var(--emerald-color)" : "none"};
+    p.$buttonType === "secondary"
+      ? "2px solid var(--btn-secondary-border)"
+      : "none"};
 
   &:hover {
     transform: translateY(-2px);

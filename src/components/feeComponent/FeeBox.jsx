@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
 import { ConfirmContext } from "../../contexts/ConfirmContext";
+import { ToastContext } from "../../contexts/ToastContext";
 
 import { deleteFee } from "../../services/fee.service";
 
@@ -12,7 +13,7 @@ const BoxWrapper = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  align-items: center; /* ← sửa align-item → align-items */
+  align-items: center;
   flex-direction: column;
   gap: 12px;
 `;
@@ -25,13 +26,20 @@ const FeeItem = styled.div`
   gap: 12px;
   padding: 12px 20px;
   border-radius: 8px;
-  background: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-hover);
+  }
 
   .title {
     font-size: 16px;
     font-weight: 500;
+    color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -40,7 +48,7 @@ const FeeItem = styled.div`
   .price {
     font-size: 16px;
     font-weight: bold;
-    color: #176782;
+    color: var(--text-secondary);
     white-space: nowrap;
   }
 
@@ -57,17 +65,23 @@ const FeeItem = styled.div`
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+      opacity: 0.8;
+      transform: translateY(0);
     }
   }
 
   .more {
-    background: #176782;
-    color: white;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
   }
 
   .delete {
-    background: #dc3545;
+    background: var(--error);
     color: white;
   }
 `;
@@ -76,11 +90,12 @@ function FeeCard({ fee }) {
   const { setLoadingData } = useContext(LoadingContext);
   const { setLoadingFees } = useContext(DataContext);
   const { confirm } = useContext(ConfirmContext);
+  const { toast } = useContext(ToastContext);
 
   const handleDelete = async (feeId) => {
     const ok = await confirm({
       title: "Xóa chi tiêu",
-      message: "Bạn chắc chắn muốn xóa chi tiêu này chứ!",
+      message: `Bạn chắc chắn muốn xóa chi tiêu "${fee.feeName}" không?`,
       danger: true,
     });
 
@@ -89,9 +104,12 @@ function FeeCard({ fee }) {
     try {
       setLoadingData(true);
       await deleteFee(feeId);
+      toast.success(`Xóa chi tiêu "${fee.feeName}" thành công!`);
       setLoadingFees(true);
     } catch (err) {
-      console.log("Lỗi: ", err);
+      const msg =
+        err?.response?.data?.message || err?.message || "Xóa thất bại";
+      toast.error(msg);
     } finally {
       setLoadingData(false);
     }
@@ -117,7 +135,13 @@ export default function FeeBox({ fees }) {
       {fees && fees.length > 0 ? (
         fees.map((fee) => <FeeCard key={fee.feeId} fee={fee} />)
       ) : (
-        <p style={{ textAlign: "center", marginTop: "40px" }}>
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "40px",
+            color: "var(--text-muted)",
+          }}
+        >
           Bạn chưa có chi phí nào!
         </p>
       )}
