@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useEffect, useState, useContext } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
@@ -7,83 +6,11 @@ import { ToastContext } from "../../contexts/ToastContext";
 
 import { Button } from "../ui/Button";
 import { SmallText } from "../ui/Typography";
+import { DropDownCategories } from "./DropDownCategories";
 
 import { createFee } from "../../services/fee.service";
 
-const FormBox = styled.div`
-  .form {
-    width: 450px;
-    margin: 2rem auto;
-    border: 1px solid var(--border-primary);
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5rem;
-    background-color: var(--bg-card);
-    padding-bottom: 1.5rem;
-  }
-
-  label {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    align-self: flex-start;
-    margin-left: 2rem;
-    color: var(--text-secondary);
-    font-weight: bold;
-  }
-
-  input,
-  textarea,
-  select,
-  option {
-    width: 80%;
-    height: 35px;
-    font-size: 16px;
-    text-indent: 10px;
-    letter-spacing: 2px;
-    font-weight: bold;
-    color: var(--text-primary);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 16px;
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  input::placeholder,
-  textarea::placeholder {
-    color: var(--text-muted);
-  }
-
-  textarea {
-    height: 60px;
-    resize: none;
-  }
-
-  input:hover,
-  textarea:hover,
-  select:hover {
-    border-color: var(--border-hover);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-  }
-
-  input:focus,
-  textarea:focus,
-  select:focus {
-    outline: 0;
-    border-color: var(--border-hover);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
-  }
-
-  @media (max-width: 768px) {
-    .form {
-      width: 80%;
-    }
-  }
-`;
+import { FormBox } from "../../styles/FormBox";
 
 export default function FeeForm() {
   const { setLoadingData } = useContext(LoadingContext);
@@ -160,18 +87,14 @@ export default function FeeForm() {
         />
 
         <label htmlFor="categoryName">Danh mục:</label>
-        <select
+        <DropDownCategories
           id="categoryName"
           name="categoryName"
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
-        >
-          {categories.map((item) => (
-            <option key={item.categoryName} value={item.categoryName}>
-              {item.categoryName}
-            </option>
-          ))}
-        </select>
+          options={categories}
+          placeholder="Chọn danh mục..."
+        />
 
         <label htmlFor="feeDescription">Ghi chú:</label>
         <textarea

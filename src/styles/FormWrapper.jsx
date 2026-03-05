@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  min-height: 100vh;
+  height: calc(100vh - 74px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   font-family: system-ui, sans-serif;
 
   .form-container {
-    width: 360px;
     background: var(--bg-card);
     padding: 32px;
     border-radius: 12px;
@@ -102,6 +101,43 @@ const Wrapper = styled.div`
     font-size: 10px;
     font-weight: 600;
     margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 16px 24px;
+    }
+    .title {
+      margin: 10px auto;
+    }
+
+    .form {
+      gap: 8px;
+    }
+
+    input,
+    button {
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+    .forgot {
+      margin: 0;
+    }
+
+    button {
+      width: 150px;
+      align-self: center;
+    }
+
+    .signup {
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .form-container {
+      width: 360px;
+    }
   }
 `;
 

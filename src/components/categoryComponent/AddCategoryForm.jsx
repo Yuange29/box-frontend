@@ -11,24 +11,54 @@ import { ToastContext } from "../../contexts/ToastContext";
 import { createCategory } from "../../services/category.service";
 
 const Form = styled.form`
-  width: 80%;
+  width: 60%;
+  box-sizing: border-box;
   margin: 30px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+
+  @media (max-width: 1024px) {
+    width: 80%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
+`;
+
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const Label = styled.label`
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const Input = styled.input`
-  width: 50%;
-  padding: 10px 20px;
+  width: 100%;
+  padding: 12px 16px;
   font-size: 16px;
   border: 1px solid var(--border-primary);
   border-radius: 8px;
-  margin: 8px 0;
   background: var(--bg-secondary);
   color: var(--text-primary);
+  box-sizing: border-box;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -41,10 +71,6 @@ const Input = styled.input`
     outline: 0;
     border-color: var(--border-hover);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
   }
 `;
 
@@ -91,19 +117,27 @@ export default function AddCategoryForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Input
-        type="text"
-        value={categoryName}
-        placeholder="Nhập tên danh mục mới"
-        onChange={(e) => setCategoryName(e.target.value)}
-      />
-      <Input
-        type="text"
-        value={categoryDescription}
-        placeholder="Nhập mô tả danh mục"
-        onChange={(e) => setCategoryDescription(e.target.value)}
-      />
-      <Button type="submit" disabled={loadingData}>
+      <InputWrapper>
+        <Label>Tên danh mục</Label>
+        <Input
+          type="text"
+          value={categoryName}
+          placeholder="Nhập tên danh mục mới"
+          onChange={(e) => setCategoryName(e.target.value)}
+        />
+      </InputWrapper>
+
+      <InputWrapper>
+        <Label>Mô tả</Label>
+        <Input
+          type="text"
+          value={categoryDescription}
+          placeholder="Nhập mô tả danh mục"
+          onChange={(e) => setCategoryDescription(e.target.value)}
+        />
+      </InputWrapper>
+
+      <Button type="submit" disabled={loadingData} style={{ marginTop: "8px" }}>
         {loadingData ? <Loading /> : "Thêm danh mục"}
       </Button>
     </Form>

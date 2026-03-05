@@ -24,11 +24,11 @@ export const Heading = styled.h1`
     font-size: ${(p) => {
       switch (p.$level) {
         case 1:
-          return "32px";
+          return "28px";
         case 2:
-          return "26px";
+          return "24px";
         case 3:
-          return "22px";
+          return "20px";
         default:
           return "18px";
       }
@@ -37,12 +37,20 @@ export const Heading = styled.h1`
 `;
 
 export const Text = styled.p`
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--text-secondary);
+
+  @meadia (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export const SmallText = styled.span`
   font-size: 16px;
   color: var(--text-muted);
+
+  @meadia (max-width: 768px) {
+    font-size: 10px;
+  }
 `;

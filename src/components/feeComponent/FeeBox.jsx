@@ -16,6 +16,10 @@ const BoxWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 12px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const FeeItem = styled.div`
@@ -27,13 +31,14 @@ const FeeItem = styled.div`
   padding: 12px 20px;
   border-radius: 8px;
   background: var(--bg-card);
-  border: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   transition: border-color 0.2s ease;
 
   &:hover {
     border-color: var(--border-hover);
+    scale: 1.01;
   }
 
   .title {
@@ -83,6 +88,22 @@ const FeeItem = styled.div`
   .delete {
     background: var(--error);
     color: white;
+  }
+
+  @media (max-width: 768px) {
+    gap: 8px;
+    padding: 4px 8px 4px 12px;
+
+    .title,
+    .price {
+      font-size: 16px;
+      margin: 4px 8px;
+    }
+
+    button {
+      width: 30px;
+      height: 30px;
+    }
   }
 `;
 

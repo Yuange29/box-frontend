@@ -19,11 +19,14 @@ const BoxContainer = styled.div`
     text-align: center;
     margin-top: 40px;
   }
+
+  @media (max-width: 768px) {
+    padding: 4px 8px;
+  }
 `;
 
 const Child = styled.div`
   box-sizing: border-box;
-  text-indent: 20px;
   width: 70%;
   margin: 10px auto;
   display: grid;
@@ -32,13 +35,14 @@ const Child = styled.div`
   align-items: center;
   padding: 5px;
   background: var(--bg-card);
-  border: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: border-color 0.2s ease;
 
   &:hover {
     border-color: var(--border-hover);
+    scale: 1.01;
   }
 
   .content {
@@ -84,6 +88,27 @@ const Child = styled.div`
     background: var(--error);
     color: white;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+
+    .content {
+      font-size: 16px;
+      margin: 4px 8px 4px 0px;
+      padding-left: 10px;
+    }
+
+    button {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .content {
+      text-indent: 20px;
+    }
+  }
 `;
 
 export default function CategoriesBox({ categories }) {
@@ -124,8 +149,8 @@ export default function CategoriesBox({ categories }) {
     <BoxContainer>
       {categories && categories.length > 0 ? (
         categories.map((category) => (
-          <Child key={category.id || category.categoryId || category._id}>
-            <p className="content">{category.categoryName || category.name}</p>
+          <Child key={category.categoryId}>
+            <p className="content">{category.categoryName}</p>
             <button className="more-btn">
               <i className="fa-solid fa-plus"></i>
             </button>

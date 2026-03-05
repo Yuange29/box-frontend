@@ -56,7 +56,7 @@ const SignInForm = () => {
     <>
       <Wrapper>
         <div className="form-container">
-          <h1 className="title">Chào mừng trở lại</h1>
+          <h1 className="title">Đăng nhập</h1>
 
           <form className="form" onSubmit={handleSubmit}>
             <input

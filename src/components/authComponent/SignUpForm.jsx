@@ -74,7 +74,7 @@ export default function SignUpForm() {
   return (
     <Wrapper>
       <div className="form-container">
-        <h1 className="title">Tạo tài khoản Storage</h1>
+        <h1 className="title">Storage</h1>
 
         <form className="form" onSubmit={handleSubmit}>
           <input
