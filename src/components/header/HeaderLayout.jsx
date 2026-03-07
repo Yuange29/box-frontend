@@ -1,10 +1,13 @@
 import { styled } from "styled-components";
-import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { getLinks } from "../../data/navLinks.js";
+
 import logoImg from "../../assets/img/logo-img.png";
+
+import { getLinks } from "../../data/generalData.js";
 
 const Header = styled.header`
   height: 64px;

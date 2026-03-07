@@ -2,7 +2,6 @@ import { useContext, useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { LoadingContext } from "../contexts/LoadingContext";
 
 import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
@@ -14,7 +13,7 @@ import { Button } from "../components/ui/Button";
 import FeeBox from "../components/feeComponent/FeeBox";
 import FeeForm from "../components/feeComponent/FeeForm";
 
-import { feeFeatures as links } from "../data/feeFeatures";
+import { feeFeatures as links } from "../data/featuresInfomation";
 import { DataContext } from "../contexts/DataContext";
 
 export default function Fee() {

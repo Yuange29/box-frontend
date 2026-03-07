@@ -5,8 +5,9 @@ import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
 import FeatureCard from "../components/homeComponents/FeatureCard.jsx";
 import { Heading } from "../components/ui/Typography";
-import { featureLink as link } from "../data/featureLink.js";
 import FeatureWrapper from "../styles/FeatureWrapper.jsx";
+
+import { homeFeatures as link } from "../data/featuresInfomation.js";
 
 export default function Home() {
   const { user } = useContext(AuthContext);

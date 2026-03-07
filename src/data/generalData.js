@@ -1,14 +1,61 @@
-export const footerData = [
+const footerData = [
   {
-    title: "Create",
-    inf: ["Name: Truong", "mail: test @gmail.com"],
+    title: "Người tạo",
+    inf: ["Name: Truong", "mail: masterfeed47@gmail.com"],
   },
   {
-    title: "For",
-    inf: ["a test project"],
+    title: "Mục tiêu",
+    inf: ["Project nhỏ - sử dụng backend, frontend, database."],
   },
   {
-    title: "inf about web",
-    inf: ["Create: 2/1/2026", "Web: Storage"],
+    title: "Thông tin về web",
+    inf: [
+      "Ngày tạo: 2/1/2026",
+      "Web: Storage",
+      "Mục đích: lưu giữ các chi tiêu(web gần giống note)",
+    ],
   },
 ];
+
+const getLinks = (user) => {
+  const links = [
+    {
+      id: "home",
+      label: "Trang chủ",
+      path: "/",
+      roles: ["user", "admin"],
+    },
+    {
+      id: "category",
+      label: "Danh mục",
+      path: "/categories",
+      roles: ["user", "admin"],
+    },
+    {
+      id: "fee",
+      label: "Chi tiêu",
+      path: "/fee",
+      roles: ["user", "admin"],
+    },
+  ];
+
+  if (!user) {
+    links.push({
+      id: "signin",
+      label: "Đăng nhập",
+      path: "/signin",
+      roles: ["guest"],
+    });
+  } else {
+    links.push({
+      id: "profile",
+      label: user.userName,
+      path: "/profile",
+      roles: ["user", "admin"],
+    });
+  }
+
+  return links;
+};
+
+export { footerData, getLinks };

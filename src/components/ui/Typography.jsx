@@ -8,11 +8,11 @@ export const Heading = styled.h1`
   font-size: ${(p) => {
     switch (p.$level) {
       case 1:
-        return "48px";
-      case 2:
         return "36px";
-      case 3:
+      case 2:
         return "28px";
+      case 3:
+        return "24px";
       case 4:
         return "22px";
       default:

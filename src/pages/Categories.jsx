@@ -16,7 +16,7 @@ import CategoriesBox from "../components/categoryComponent/CategoriesBox";
 import AddCategoryForm from "../components/categoryComponent/AddCategoryForm";
 import SearchBar from "../components/categoryComponent/SearchBar";
 
-import { categoryFeatures as links } from "../data/categoryFeatures";
+import { categoryFeatures as links } from "../data/featuresInfomation";
 
 export default function Categories() {
   const { user } = useContext(AuthContext);

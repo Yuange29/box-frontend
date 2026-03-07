@@ -10,7 +10,12 @@ const Footer = styled.footer`
   gap: 16px;
   padding: 40px 24px;
   box-sizing: border-box;
-  background-color: var(--bg-section);
+  background-color: var(--bg-card);
+
+  @media (max-width: 768px) {
+    gap: 8px;
+    padding: 16px 8px;
+  }
 `;
 
 const InformationCard = styled.div`
@@ -20,7 +25,6 @@ const InformationCard = styled.div`
   border-radius: 12px;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.05);
-  font-size: 18px;
   color: var(--cotton-color);
   transition:
     transform 0.2s ease,
@@ -31,9 +35,9 @@ const InformationCard = styled.div`
     background: rgba(255, 255, 255, 0.08);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     flex: 1 1 100%;
-    font-size: 16px;
+    padding: 8px;
   }
 `;
 
@@ -45,6 +49,8 @@ const InformationList = styled.ul`
 
 const InformationChild = styled.li`
   padding: 6px 0;
+  margin-left: 10px;
+  color: var(--text-secondary);
   font-size: 16px;
   opacity: 0.85;
   transition:
@@ -59,16 +65,20 @@ const InformationChild = styled.li`
   &:not(:last-child) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  @media (max-width: 768px) {
+    padding: 5px;
+  }
 `;
 
 const Copyright = styled.div`
   width: 100%;
   text-align: center;
   padding: 16px 0;
+  color: var(--text-secondary);
   font-size: 14px;
   opacity: 0.6;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--cotton-color);
 `;
 
 function ShowData({ title, inf }) {
@@ -77,9 +87,7 @@ function ShowData({ title, inf }) {
       <Heading $level={4}>{title}</Heading>
       <InformationList>
         {inf.map((e, index) => (
-          <InformationChild key={index}>
-            <Text>{e}</Text>
-          </InformationChild>
+          <InformationChild key={index}>{e}</InformationChild>
         ))}
       </InformationList>
     </InformationCard>
