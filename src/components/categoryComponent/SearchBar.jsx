@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState, useMemo } from "react";
+
 import CategoriesBox from "./CategoriesBox";
+import { Text } from "../ui/Typography";
 
 const SearchContainer = styled.div`
   box-sizing: border-box;
@@ -40,7 +42,7 @@ const Result = styled.div`
   opacity: 0.9;
 
   .no-result {
-    color: var(--cotton-color);
+    color: var(--text-secondary);
     font-size: 18px;
     text-align: center;
     margin-top: 40px;
@@ -52,27 +54,19 @@ const getCategoryName = (category) =>
 
 const SearchBar = ({ categories }) => {
   const [keyword, setKeyword] = useState("");
-  const [hasNoResult, setHasNoResult] = useState(false);
 
   const results = useMemo(() => {
     const trimmedKeyword = keyword.trim();
+    if (!trimmedKeyword) return [];
 
-    if (!trimmedKeyword) {
-      // eslint-disable-next-line react-hooks/set-state-in-render
-      setHasNoResult(false);
-      return [];
-    }
-
-    const filtered = categories.filter((category) =>
+    return categories.filter((category) =>
       getCategoryName(category)
         .toLowerCase()
         .includes(trimmedKeyword.toLowerCase()),
     );
-
-    // eslint-disable-next-line react-hooks/set-state-in-render
-    setHasNoResult(filtered.length === 0 && trimmedKeyword.length > 0);
-    return filtered;
   }, [keyword, categories]);
+
+  const hasNoResult = keyword.trim().length > 0 && results.length === 0;
 
   return (
     <>
@@ -90,7 +84,7 @@ const SearchBar = ({ categories }) => {
       {(results.length > 0 || hasNoResult) && (
         <Result>
           {hasNoResult ? (
-            <p className="no-result">Không tìm thấy kết quả phù hợp</p>
+            <Text className="no-result">Không tìm thấy kết quả phù hợp</Text>
           ) : (
             <CategoriesBox categories={results} onRefresh={() => {}} />
           )}

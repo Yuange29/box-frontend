@@ -6,6 +6,8 @@ import { DataContext } from "../../contexts/DataContext";
 import { ConfirmContext } from "../../contexts/ConfirmContext";
 import { ToastContext } from "../../contexts/ToastContext";
 
+import { Text } from "../ui/Typography";
+
 import { deleteFee } from "../../services/fee.service";
 
 const BoxWrapper = styled.div`
@@ -28,7 +30,7 @@ const FeeItem = styled.div`
   grid-template-columns: 1fr 1fr auto auto;
   align-items: center;
   gap: 12px;
-  padding: 12px 20px;
+  padding: 8px 16px;
   border-radius: 8px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-primary);
@@ -156,15 +158,14 @@ export default function FeeBox({ fees }) {
       {fees && fees.length > 0 ? (
         fees.map((fee) => <FeeCard key={fee.feeId} fee={fee} />)
       ) : (
-        <p
+        <Text
           style={{
             textAlign: "center",
             marginTop: "40px",
-            color: "var(--text-muted)",
           }}
         >
           Bạn chưa có chi phí nào!
-        </p>
+        </Text>
       )}
     </BoxWrapper>
   );

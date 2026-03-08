@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { LoadingContext } from "../contexts/LoadingContext";
 import { DataContext } from "../contexts/DataContext";
 
 import { Heading } from "../components/ui/Typography";
@@ -24,7 +23,7 @@ export default function Categories() {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => setLoadingCategories(true), []);
+  useEffect(() => setLoadingCategories(true), [setLoadingCategories]);
   return (
     <>
       <Section>

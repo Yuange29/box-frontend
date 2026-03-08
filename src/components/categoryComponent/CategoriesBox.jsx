@@ -10,12 +10,11 @@ import { deleteCategory } from "../../services/category.service";
 
 const BoxContainer = styled.div`
   width: 100%;
-  padding: 20px;
   box-sizing: border-box;
 
   .inf {
     color: var(--text-muted);
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     margin-top: 40px;
   }

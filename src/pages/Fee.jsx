@@ -15,6 +15,7 @@ import FeeForm from "../components/feeComponent/FeeForm";
 
 import { feeFeatures as links } from "../data/featuresInfomation";
 import { DataContext } from "../contexts/DataContext";
+import SearchBar from "../components/feeComponent/SearchBar";
 
 export default function Fee() {
   const { user } = useContext(AuthContext);
@@ -52,6 +53,7 @@ export default function Fee() {
       <Section id="search">
         <Container>
           <Heading $level={2}>Tìm kiếm chi phí của bạn</Heading>
+          <SearchBar fees={fees} />
         </Container>
       </Section>
 
