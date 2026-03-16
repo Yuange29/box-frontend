@@ -7,6 +7,7 @@ export function DropDownCategories({
   value,
   onChange,
   options,
+  disabled,
   placeholder = "Chọn danh mục...",
 }) {
   const [open, setOpen] = useState(false);
@@ -58,6 +59,7 @@ export function DropDownCategories({
         onClick={handleOpen}
         aria-haspopup="listbox"
         aria-expanded={open}
+        disabled={disabled}
       >
         <TriggerText $empty={!value}>{value || placeholder}</TriggerText>
         <Chevron viewBox="0 0 20 20">

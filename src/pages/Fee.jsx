@@ -19,7 +19,7 @@ import SearchBar from "../components/feeComponent/SearchBar";
 
 export default function Fee() {
   const { user } = useContext(AuthContext);
-  const { fees, setLoadingFees } = useContext(DataContext);
+  const { fees, setLoadingFees, categories } = useContext(DataContext);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ export default function Fee() {
       <Section id="add">
         <Container>
           <Heading $level={2}>Thêm chi phí mới: </Heading>
-          <FeeForm />
+          <FeeForm categories={categories} />
         </Container>
       </Section>
 

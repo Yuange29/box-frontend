@@ -49,7 +49,7 @@ const getLinks = (user) => {
   } else {
     links.push({
       id: "profile",
-      label: user.userName,
+      label: user.userNickName,
       path: "/profile",
       roles: ["user", "admin"],
     });

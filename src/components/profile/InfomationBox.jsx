@@ -21,6 +21,8 @@ const InfoWrapper = styled.div`
 export default function InfomationBox() {
   const { user } = useContext(AuthContext);
 
+  if (!user) return null;
+
   return (
     <InfoWrapper>
       <Text>Tên tài khoản: {user.userName || "trống"}</Text>

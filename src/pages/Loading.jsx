@@ -1,31 +1,16 @@
 import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../contexts/AuthContext";
-
-import { getInfo } from "../services/user.service";
-
 const LoadingPage = () => {
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          navigate("/signin");
-          return;
-        }
-
-        const response = await getInfo();
-
-        login(response.data.result);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      } finally {
-        //
+        navigate("/");
+      } catch {
+        navigate("/signin");
       }
     };
     fetchUserInfo();

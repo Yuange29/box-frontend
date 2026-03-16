@@ -23,7 +23,10 @@ export default function Categories() {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => setLoadingCategories(true), [setLoadingCategories]);
+  useEffect(() => {
+    setLoadingCategories(true);
+    // console.log("cate page cate", categories);
+  }, [setLoadingCategories]);
   return (
     <>
       <Section>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext, useState } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
@@ -12,10 +12,9 @@ import { createFee } from "../../services/fee.service";
 
 import { FormBox } from "../../styles/FormBox";
 
-export default function FeeForm() {
+export default function FeeForm({ categories }) {
   const { setLoadingData } = useContext(LoadingContext);
-  const { categories, setLoadingFees, setLoadingCategories } =
-    useContext(DataContext);
+  const { setLoadingFees } = useContext(DataContext);
   const { toast } = useContext(ToastContext);
 
   const [feeName, setFeeName] = useState("");
@@ -26,15 +25,7 @@ export default function FeeForm() {
   const [date, setDate] = useState(today);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (categories.length === 0) {
-      setLoadingCategories(true);
-    }
-
-    if (categories.length > 0) {
-      setCategoryName(categories[0].categoryName);
-    }
-  }, [categories, setLoadingCategories]);
+  const isDisabled = !categories || categories.length === 0;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,7 +106,9 @@ export default function FeeForm() {
           onChange={(e) => setDate(e.target.value)}
         />
 
-        <Button type="submit">Thêm chi phí</Button>
+        <Button type="submit" disabled={isDisabled}>
+          {isDisabled ? "Không thể thêm" : "Thêm"}
+        </Button>
 
         <SmallText>{error}</SmallText>
       </form>

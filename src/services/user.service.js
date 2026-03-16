@@ -1,11 +1,11 @@
 import api from "./api";
 
 const getInfo = () => {
-  return api.get("/users/getInfo");
+  return api.get("/users/me");
 };
 
-const register = (userName, password, email) => {
-  return api.post("/users", { userName, password, email });
+const register = (userNickName, userName, password, email) => {
+  return api.post("/auth/signup", { userNickName, userName, password, email });
 };
 
 export { getInfo, register };

@@ -1,12 +1,12 @@
 import { api } from "./api";
 
 export const login = (userName, password) => {
-  return api.post("/auth/login", {
+  return api.post("/auth/signin", {
     userName,
     password,
   });
 };
 
-export const logout = (token) => {
-  return api.post("auth/logout", { token });
+export const logout = () => {
+  return api.post("auth/logout", {});
 };

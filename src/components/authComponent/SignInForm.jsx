@@ -10,6 +10,8 @@ import { getInfo } from "../../services/user.service";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { LoadingContext } from "../../contexts/LoadingContext.jsx";
 
+import api from "../../services/api.js";
+
 const SignInForm = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -26,21 +28,18 @@ const SignInForm = () => {
 
     if (!userName || !password) {
       setError("Vui lòng điền tên tài khoản và mật khẩu");
+      setLoadingData(false);
       return;
     }
 
     try {
       const response = await login(userName, password);
-
-      const accessToken = response.data.result.accessToken;
-      const refreshToken = response.data.result.refreshToken;
-
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      const { accessToken } = response.data.data;
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
       const userInfo = await getInfo();
 
-      loginContext(userInfo.data.result);
+      loginContext(userInfo.data.data, accessToken);
       setShowDialog(true);
 
       navigate("/");

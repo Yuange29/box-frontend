@@ -18,15 +18,12 @@ function DataProvider({ children }) {
   const { setLoadingData } = useContext(LoadingContext);
 
   useEffect(() => {
-    if (!loadingCategories) return;
-
     const fetchCategories = async () => {
       setLoadingData(true);
       setloadDataError("");
-
       try {
         const response = await getCategories();
-        setCategories(response.data.result);
+        setCategories(response.data.data);
       } catch (err) {
         setloadDataError(err.response?.data?.message);
       } finally {
@@ -39,14 +36,12 @@ function DataProvider({ children }) {
   }, [loadingCategories, setLoadingData]);
 
   useEffect(() => {
-    if (!loadingFees) return;
-
     const fetchFees = async () => {
       setLoadingData(true);
       setloadDataError("");
       try {
         const response = await getFees();
-        setFees(response.data.result);
+        setFees(response.data.data);
       } catch (err) {
         setloadDataError(err.response?.data?.message);
       } finally {

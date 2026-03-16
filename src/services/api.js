@@ -1,15 +1,8 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://box-backend-l8sq.onrender.com/storage",
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-  return config;
+  baseURL: "https://box-backend-e0wz.onrender.com/",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -17,47 +10,33 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    // ← không retry nếu chính request đó là refresh hoặc me
+    const skipRetryUrls = ["/auth/refresh", "/auth/me"];
+    if (skipRetryUrls.some((url) => originalRequest.url?.includes(url))) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = localStorage.getItem("refreshToken");
+      try {
+        const response = await axios.post(
+          "https://box-backend-e0wz.onrender.com/auth/refresh",
+          {},
+          { withCredentials: true },
+        );
 
-      if (!refreshToken) {
-        localStorage.removeItem("accessToken");
+        const newToken = response.data.data.accessToken;
+        api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+
+        return api(originalRequest);
+      } catch {
+        delete api.defaults.headers.common["Authorization"];
         if (window.location.pathname !== "/signin") {
           window.location.href = "/signin";
         }
         return Promise.reject(error);
-      }
-
-      try {
-        const response = await axios.post(
-          "https://box-backend-l8sq.onrender.com/storage/auth/refresh",
-          { token: refreshToken },
-        );
-
-        const newAccessToken = response.data.result.accessToken;
-        const newRefreshToken = response.data.result.refreshToken;
-
-        localStorage.setItem("accessToken", newAccessToken);
-        localStorage.setItem("refreshToken", newRefreshToken);
-
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-        return api(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-
-        if (window.location.pathname !== "/signin") {
-          window.location.href = "/signin";
-        }
-
-        return Promise.reject(refreshError);
       }
     }
 

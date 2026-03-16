@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+// import redirectTimer
 
 import Wrapper from "../../styles/FormWrapper";
 import Loading from "../ui/Loading";
@@ -11,8 +12,10 @@ import { LoadingContext } from "../../contexts/LoadingContext";
 
 import { register, getInfo } from "../../services/user.service";
 import { login } from "../../services/auth.service";
+import api from "../../services/api";
 
 export default function SignUpForm() {
+  const [userNickName, setUserNickName] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,6 +41,7 @@ export default function SignUpForm() {
     setLoadingData(true);
 
     if (
+      userNickName.length < 6 ||
       userName.length < 6 ||
       password.length < 6 ||
       password !== confirmPassword ||
@@ -49,14 +53,15 @@ export default function SignUpForm() {
     }
 
     try {
-      await register(userName, password, email);
+      await register(userNickName, userName, password, email);
 
       const loginRes = await login(userName, password);
-      localStorage.setItem("authToken", loginRes.data.result.token);
+      api.defaults.headers.common["Authorization"] =
+        `Bearer ${loginRes.data.data.accessToken}`;
 
       const userInfo = await getInfo();
 
-      loginContext(userInfo.data.result);
+      loginContext(userInfo.data.data, loginRes.data.data.accessToken);
       setShowDialog(true);
 
       navigate("/");
@@ -77,6 +82,16 @@ export default function SignUpForm() {
         <h1 className="title">Storage</h1>
 
         <form className="form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Nhập tên hiển thị"
+            value={userNickName}
+            onChange={(e) => setUserNickName(e.target.value)}
+          />
+          {error && userNickName.length < 6 && (
+            <SmallText className="errText">tên hiển thị chưa đúng</SmallText>
+          )}
+
           <input
             type="text"
             placeholder="Nhập tên tài khoản"
