@@ -61,8 +61,8 @@ const NavButton = styled(NavLink)`
   }
 
   &.active {
-    background-color: var(--text-primary);
-    color: var(--text-muted);
+    color: var(--text-primary);
+    border-bottom: 3px solid var(--text-primary);
   }
 
   &:active {

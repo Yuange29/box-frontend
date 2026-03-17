@@ -23,10 +23,12 @@ const Input = styled.input`
   text-indent: 20px;
   border: 0;
   border-radius: 999px;
-  color: #1d5d06;
+  background-color: var(--bg-primary);
+  color: var(text-primary);
 
   &:focus {
     outline: 0;
+    border-bottom: 1px solid var(--border-primary);
   }
 
   @media (max-width: 768px) {

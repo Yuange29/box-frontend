@@ -16,6 +16,7 @@ import { LoadingProvider } from "./contexts/LoadingContext.jsx";
 import { DataProvider } from "./contexts/DataContext.jsx";
 import { ToastProvider } from "./contexts/ToastContext.jsx";
 import { ConfirmProvider } from "./contexts/ConfirmContext.jsx";
+import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 
 import LoadingScreen from "./components/ui/LoadingScreen";
 import Fee from "./pages/Fee.jsx";
@@ -45,12 +46,14 @@ function App() {
         <LoadingProvider>
           <ToastProvider>
             <ConfirmProvider>
-              <AuthProvider>
-                <DataProvider>
-                  <AppContent />
-                  <LoadingScreen />
-                </DataProvider>
-              </AuthProvider>
+              <ThemeProvider>
+                <AuthProvider>
+                  <DataProvider>
+                    <AppContent />
+                    <LoadingScreen />
+                  </DataProvider>
+                </AuthProvider>
+              </ThemeProvider>
             </ConfirmProvider>
           </ToastProvider>
         </LoadingProvider>
