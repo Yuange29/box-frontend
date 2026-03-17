@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { LoadingContext } from "./LoadingContext";
 
-import { logout } from "../services/auth.service";
+import { logout, refresh } from "../services/auth.service";
 import api from "../services/api";
 import { getInfo } from "../services/user.service";
 
@@ -20,9 +20,7 @@ function AuthProvider({ children }) {
     const initAuth = async () => {
       setLoadingData(true);
       try {
-        const response = await api.post(
-          "https://box-backend-e0wz.onrender.com/auth/refresh",
-        );
+        const response = await refresh();
         const newToken = response.data.data.accessToken;
 
         setAccessToken(newToken);

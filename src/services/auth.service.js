@@ -10,3 +10,7 @@ export const login = (userName, password) => {
 export const logout = () => {
   return api.post("auth/logout", {});
 };
+
+export const refresh = () => {
+  return api.post("auth/refresh", {});
+};
