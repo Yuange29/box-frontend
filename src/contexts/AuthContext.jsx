@@ -20,7 +20,9 @@ function AuthProvider({ children }) {
     const initAuth = async () => {
       setLoadingData(true);
       try {
-        const response = await api.post("auth/refresh");
+        const response = await api.post(
+          "https://box-backend-e0wz.onrender.com/auth/refresh",
+        );
         const newToken = response.data.data.accessToken;
 
         setAccessToken(newToken);

@@ -10,7 +10,6 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // ← không retry nếu chính request đó là refresh hoặc me
     const skipRetryUrls = ["/auth/refresh", "/auth/me"];
     if (skipRetryUrls.some((url) => originalRequest.url?.includes(url))) {
       return Promise.reject(error);

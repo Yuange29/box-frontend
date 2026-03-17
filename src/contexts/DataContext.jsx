@@ -18,6 +18,7 @@ function DataProvider({ children }) {
   const { setLoadingData } = useContext(LoadingContext);
 
   useEffect(() => {
+    if (!loadingCategories) return;
     const fetchCategories = async () => {
       setLoadingData(true);
       setloadDataError("");
@@ -33,9 +34,10 @@ function DataProvider({ children }) {
     };
 
     fetchCategories();
-  }, [loadingCategories, setLoadingData]);
+  }, [loadingCategories]);
 
   useEffect(() => {
+    if (!loadingFees) return;
     const fetchFees = async () => {
       setLoadingData(true);
       setloadDataError("");
@@ -51,7 +53,7 @@ function DataProvider({ children }) {
     };
 
     fetchFees();
-  }, [loadingFees, setLoadingData]);
+  }, [loadingFees]);
 
   return (
     <DataContext.Provider
