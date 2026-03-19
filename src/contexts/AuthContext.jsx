@@ -45,15 +45,23 @@ function AuthProvider({ children }) {
     if (!isInitialized) return;
     if (loadingData) return;
 
+    if (user) {
+      if (
+        window.location.pathname === "/signin" ||
+        window.location.pathname === "/signup"
+      ) {
+        navigate("/");
+      }
+      return;
+    }
     if (
       window.location.pathname !== "/loading" &&
       window.location.pathname !== "/signin" &&
-      window.location.pathname !== "/signup" &&
-      !user
+      window.location.pathname !== "/signup"
     ) {
       navigate("/loading");
     }
-  }, [navigate, user, loadingData]);
+  }, [navigate, user, loadingData, isInitialized]);
 
   const login = async (user, token) => {
     setUser(user);
