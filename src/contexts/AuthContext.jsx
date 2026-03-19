@@ -12,6 +12,7 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const { setLoadingData, loadingData } = useContext(LoadingContext);
 
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function AuthProvider({ children }) {
         setUser(null);
       } finally {
         setLoadingData(false);
+        setIsInitialized(true);
       }
     };
 
@@ -40,6 +42,7 @@ function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    if (!isInitialized) return;
     if (loadingData) return;
 
     if (
