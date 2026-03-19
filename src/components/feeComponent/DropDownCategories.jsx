@@ -14,7 +14,6 @@ export function DropDownCategories({
   const [rect, setRect] = useState({});
   const ref = useRef(null);
 
-  // Tính toán vị trí của trigger để menu fixed bám theo
   const handleOpen = () => {
     if (!open && ref.current) {
       setRect(ref.current.getBoundingClientRect());
@@ -22,7 +21,6 @@ export function DropDownCategories({
     setOpen((v) => !v);
   };
 
-  // Cập nhật vị trí khi scroll / resize
   useEffect(() => {
     if (!open) return;
     const update = () => {
@@ -36,7 +34,6 @@ export function DropDownCategories({
     };
   }, [open]);
 
-  // Đóng khi click ngoài
   useEffect(() => {
     const handler = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
@@ -105,8 +102,8 @@ const Trigger = styled.button`
   padding: 0 14px;
   height: 42px;
   background: var(--bg-secondary);
-  border: 1.5px solid var(--border-primary)
-  border-radius: 16px;
+  border: 1.5px solid var(--btn-setting);
+  border-radius: 8px;
   cursor: pointer;
   outline: none;
   font-size: 16px;
@@ -117,7 +114,7 @@ const Trigger = styled.button`
     background 0.2s;
 
   &:hover {
-     border-color: var(--border-hover);
+    border-color: var(--border-hover);
     background: var(--bg-hover);
     border-color: var(--border-hover);
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);

@@ -42,13 +42,7 @@ export default function Categories() {
           <Heading $level={2}>Tìm nhanh các tính năng:</Heading>
           <FeatureWrapper>
             {links.map((link) => (
-              <FeatureCard
-                key={link.title}
-                title={link.title}
-                direct={link.direct}
-              >
-                {link.description}
-              </FeatureCard>
+              <FeatureCard key={link.title} {...link} />
             ))}
           </FeatureWrapper>
         </Container>

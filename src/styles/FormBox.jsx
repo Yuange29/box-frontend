@@ -34,7 +34,7 @@ export const FormBox = styled.div`
     text-indent: 10px;
     color: var(--text-primary);
     background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
+    border: 1.5px solid var(--btn-setting);
     border-radius: 8px;
     box-sizing: border-box;
     transition:
@@ -67,6 +67,20 @@ export const FormBox = styled.div`
     outline: 0;
     border-color: var(--border-hover);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+  }
+
+  .btn {
+    width: 150px;
+    height: 30px;
+    color: var(--text-setting);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-top: 16px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 8px;
+    background-color: var(--btn-setting);
   }
 
   @media (max-width: 768px) {

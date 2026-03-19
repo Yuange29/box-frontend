@@ -18,7 +18,7 @@ export default function FeeForm({ categories }) {
   const { toast } = useContext(ToastContext);
 
   const [feeName, setFeeName] = useState("");
-  const [feePrice, setFeePrice] = useState(0);
+  const [feePrice, setFeePrice] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [feeDescription, setfeeDescription] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -31,7 +31,7 @@ export default function FeeForm({ categories }) {
     e.preventDefault();
     setError("");
 
-    if (feeName.trim() === "" || feePrice === 0) {
+    if (feeName.trim() === "" || +feePrice === 0) {
       setError("Không được bỏ trống");
       return;
     }
@@ -39,10 +39,10 @@ export default function FeeForm({ categories }) {
     try {
       setLoadingData(true);
 
-      await createFee(feeName, feePrice, feeDescription, date, categoryName);
+      await createFee(feeName, +feePrice, feeDescription, date, categoryName);
 
       setFeeName("");
-      setFeePrice(0);
+      setFeePrice("");
       setfeeDescription("");
 
       toast.success("Thêm thành công");
@@ -106,9 +106,9 @@ export default function FeeForm({ categories }) {
           onChange={(e) => setDate(e.target.value)}
         />
 
-        <Button type="submit" disabled={isDisabled}>
+        <button className="btn" type="submit" disabled={isDisabled}>
           {isDisabled ? "Không thể thêm" : "Thêm"}
-        </Button>
+        </button>
 
         <SmallText>{error}</SmallText>
       </form>

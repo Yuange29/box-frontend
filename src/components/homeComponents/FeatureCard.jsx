@@ -12,28 +12,24 @@ const FeatureCard = ({ title, desc, direct, icon }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 420);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace("#", "");
-      if (hash) {
-        const element = document.getElementById(hash);
-        if (element) {
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
+    const hash = location.hash.replace("#", "");
+    if (!hash) return;
 
-            element.style.transition =
-              "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)";
-            element.style.boxShadow = "0 0 20px rgba(248, 155, 41, 0.6)";
-            setTimeout(() => {
-              element.style.boxShadow = "";
-            }, 1500);
-          }, 300);
-        }
-      }
-    };
+    const timer = setTimeout(() => {
+      const element = document.getElementById(hash);
+      if (!element) return;
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      element.style.transition = "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)";
+      element.style.boxShadow = "0 0 20px rgba(248, 155, 41, 0.6)";
+
+      setTimeout(() => {
+        element.style.boxShadow = "";
+      }, 1500);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [location]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 420);
