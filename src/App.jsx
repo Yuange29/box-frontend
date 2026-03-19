@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import ScrollToTop from "./components/ui/ScrollToTop.jsx";
 
 import MainLayout from "./layout/MainLayout";
 
@@ -23,18 +24,21 @@ import Fee from "./pages/Fee.jsx";
 
 function AppContent() {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgot-password" element={<FogotPassword />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/fee" element={<Fee />} />
-        <Route path="/profile" element={<Profile />} />
-      </Route>
-      <Route path="/loading" element={<Loading />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<FogotPassword />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/fee" element={<Fee />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+        <Route path="/loading" element={<Loading />} />
+      </Routes>
+    </>
   );
 }
 

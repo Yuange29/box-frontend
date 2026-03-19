@@ -10,7 +10,7 @@ const Section = styled.section`
   ${(p) =>
     p.$fullHeight &&
     `
-    height: 100vh;
+    height: calc(100vh - 64px);
     width: 100%;
     display: flex;
     align-items: center;

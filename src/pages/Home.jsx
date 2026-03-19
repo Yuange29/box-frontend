@@ -8,6 +8,7 @@ import { Heading } from "../components/ui/Typography";
 import FeatureWrapper from "../styles/FeatureWrapper.jsx";
 
 import { homeFeatures as link } from "../data/featuresInfomation.js";
+import Clock from "../components/homeComponents/Clock.jsx";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -18,6 +19,7 @@ export default function Home() {
           <Heading $level={1} style={{ textAlign: "center", margin: 0 }}>
             Chào mừng {user?.userName || "bạn đến với Storage"}
           </Heading>
+          <Clock />
         </Container>
       </Section>
 
