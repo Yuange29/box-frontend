@@ -1,0 +1,16 @@
+{
+  "name": "Storage",
+  "short_name": "App",
+
+  "icons": [
+    {
+      "src": "/WebLogo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}

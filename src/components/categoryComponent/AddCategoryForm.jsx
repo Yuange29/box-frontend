@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import styled from "styled-components";
 
 import { Button } from "../ui/Button";
 import Loading from "../ui/Loading";
@@ -10,69 +9,7 @@ import { ToastContext } from "../../contexts/ToastContext";
 
 import { createCategory } from "../../services/category.service";
 
-const Form = styled.form`
-  width: 60%;
-  box-sizing: border-box;
-  margin: 30px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 32px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 16px;
-
-  @media (max-width: 1024px) {
-    width: 80%;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 20px;
-  }
-`;
-
-const InputWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-
-const Label = styled.label`
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 16px;
-  border: 1px solid var(--border-primary);
-  border-radius: 8px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  box-sizing: border-box;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-
-  &::placeholder {
-    color: var(--text-muted);
-  }
-
-  &:focus {
-    outline: 0;
-    border-color: var(--border-hover);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
-  }
-`;
+import { Form, InputWrapper, Label, Input } from "../../styles/CategoryBox";
 
 export default function AddCategoryForm() {
   const [categoryName, setCategoryName] = useState("");

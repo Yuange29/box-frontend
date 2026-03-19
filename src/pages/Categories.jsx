@@ -25,7 +25,6 @@ export default function Categories() {
 
   useEffect(() => {
     setLoadingCategories(true);
-    // console.log("cate page cate", categories);
   }, [setLoadingCategories]);
   return (
     <>

@@ -70,8 +70,8 @@ export const FormBox = styled.div`
   }
 
   .btn {
-    width: 150px;
-    height: 30px;
+    width: 200px;
+    height: 40px;
     color: var(--text-setting);
     font-size: 16px;
     font-weight: 400;

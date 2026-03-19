@@ -42,6 +42,7 @@ export default function SignUpForm() {
 
     if (
       userNickName.length < 6 ||
+      userNickName.length > 10 ||
       userName.length < 6 ||
       password.length < 6 ||
       password !== confirmPassword ||

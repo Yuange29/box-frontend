@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
@@ -7,113 +6,87 @@ import { ConfirmContext } from "../../contexts/ConfirmContext";
 import { ToastContext } from "../../contexts/ToastContext";
 
 import { Text } from "../ui/Typography";
+import {
+  BoxWrapper,
+  FeeItem,
+  InfoWrapper,
+  Overlay,
+} from "../../styles/FeeBoxStyle";
 
 import { deleteFee } from "../../services/fee.service";
 
-const BoxWrapper = styled.div`
-  width: 90%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 12px;
+const formatDate = (dateStr) => {
+  if (!dateStr) return "—";
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
+  const date = new Date(dateStr);
+  const days = [
+    "Chủ nhật",
+    "Thứ 2",
+    "Thứ 3",
+    "Thứ 4",
+    "Thứ 5",
+    "Thứ 6",
+    "Thứ 7",
+  ];
 
-const FeeItem = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr auto auto;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  transition: border-color 0.2s ease;
+  const day = days[date.getDay()];
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yyyy = date.getFullYear();
 
-  &:hover {
-    border-color: var(--border-hover);
-    scale: 1.01;
-  }
+  return `${day} - ${dd} - ${mm} - ${yyyy}`;
+};
 
-  .title {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+function InfoCard({ fee, onClose }) {
+  return (
+    <>
+      <Overlay onClick={onClose} />
+      <InfoWrapper>
+        <div className="info-header">
+          <h3 className="info-title">{fee.feeName}</h3>
+          <button className="close-btn" onClick={onClose}>
+            <i className="fa-solid fa-xmark" />
+          </button>
+        </div>
 
-  .price {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
+        <p className="price-tag">{fee.feePrice?.toLocaleString("vi-VN")}đ</p>
 
-  button {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+        <div className="divider" />
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    &:active {
-      opacity: 0.8;
-      transform: translateY(0);
-    }
-  }
-
-  .more {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-    border: 1px solid var(--border-primary);
-  }
-
-  .delete {
-    background: var(--error);
-    color: white;
-  }
-
-  @media (max-width: 768px) {
-    gap: 8px;
-    padding: 4px 8px 4px 12px;
-
-    .title,
-    .price {
-      font-size: 16px;
-      margin: 4px 8px;
-    }
-
-    button {
-      width: 30px;
-      height: 30px;
-    }
-  }
-`;
+        <div className="info-row">
+          <span className="info-label">
+            <i className="fa-solid fa-tag" /> Danh mục
+          </span>
+          <span className="info-value">{fee.categoryName || "—"}</span>
+        </div>
+        <div className="info-row">
+          <span className="info-label">
+            <i className="fa-regular fa-calendar" /> Ngày
+          </span>
+          <span className="info-value">{formatDate(fee.date)}</span>
+        </div>
+        <div className="info-row">
+          <span className="info-label">
+            <i className="fa-solid fa-note-sticky" /> Ghi chú
+          </span>
+          <span className="info-value">
+            {fee.feeDescription || "Không có ghi chú"}
+          </span>
+        </div>
+      </InfoWrapper>
+    </>
+  );
+}
 
 function FeeCard({ fee }) {
   const { setLoadingData } = useContext(LoadingContext);
   const { setLoadingFees } = useContext(DataContext);
   const { confirm } = useContext(ConfirmContext);
   const { toast } = useContext(ToastContext);
+
+  const [showInfo, setShowInfo] = useState(false);
+
+  const handleInfo = async () => setShowInfo(true);
 
   const handleDelete = async (feeId) => {
     const ok = await confirm({
@@ -139,16 +112,19 @@ function FeeCard({ fee }) {
   };
 
   return (
-    <FeeItem>
-      <p className="title">{fee.feeName}</p>
-      <p className="price">{fee.feePrice?.toLocaleString("vi-VN")}đ</p>
-      <button className="more">
-        <i className="fa-solid fa-plus"></i>
-      </button>
-      <button className="delete" onClick={() => handleDelete(fee.feeId)}>
-        <i className="fa-solid fa-trash"></i>
-      </button>
-    </FeeItem>
+    <>
+      <FeeItem>
+        <p className="title">{fee.feeName}</p>
+        <p className="price">{fee.feePrice?.toLocaleString("vi-VN")}đ</p>
+        <button className="more" onClick={() => handleInfo()}>
+          <i className="fa-solid fa-plus"></i>
+        </button>
+        <button className="delete" onClick={() => handleDelete(fee.feeId)}>
+          <i className="fa-solid fa-trash"></i>
+        </button>
+      </FeeItem>
+      {showInfo && <InfoCard fee={fee} onClose={() => setShowInfo(false)} />}
+    </>
   );
 }
 
@@ -156,7 +132,10 @@ export default function FeeBox({ fees }) {
   return (
     <BoxWrapper>
       {fees && fees.length > 0 ? (
-        fees.map((fee) => <FeeCard key={fee.feeId} fee={fee} />)
+        fees
+          .slice()
+          .reverse()
+          .map((fee) => <FeeCard key={fee.feeId} fee={fee} />)
       ) : (
         <Text
           style={{

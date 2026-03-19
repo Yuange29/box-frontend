@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { LoadingContext } from "../../contexts/LoadingContext";
 import { DataContext } from "../../contexts/DataContext";
 import { ToastContext } from "../../contexts/ToastContext";
 
-import { Button } from "../ui/Button";
 import { SmallText } from "../ui/Typography";
 import { DropDownCategories } from "./DropDownCategories";
 
@@ -14,7 +13,7 @@ import { FormBox } from "../../styles/FormBox";
 
 export default function FeeForm({ categories }) {
   const { setLoadingData } = useContext(LoadingContext);
-  const { setLoadingFees } = useContext(DataContext);
+  const { setLoadingFees, setLoadingCategories } = useContext(DataContext);
   const { toast } = useContext(ToastContext);
 
   const [feeName, setFeeName] = useState("");
@@ -26,6 +25,10 @@ export default function FeeForm({ categories }) {
   const [error, setError] = useState("");
 
   const isDisabled = !categories || categories.length === 0;
+
+  useEffect(() => {
+    if (!categories || categories.length === 0) setLoadingCategories(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
