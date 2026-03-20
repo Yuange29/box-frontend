@@ -6,10 +6,10 @@ import { ToastContext } from "../../contexts/ToastContext";
 
 import { SmallText } from "../ui/Typography";
 import { DropDownCategories } from "./DropDownCategories";
+import { Button } from "../ui/Button";
+import { Form, Input, TextArea, Label } from "../ui/FormIngredients.style";
 
 import { createFee } from "../../services/fee.service";
-
-import { FormBox } from "../../styles/FormBox";
 
 export default function FeeForm({ categories }) {
   const { setLoadingData } = useContext(LoadingContext);
@@ -34,8 +34,16 @@ export default function FeeForm({ categories }) {
     e.preventDefault();
     setError("");
 
-    if (feeName.trim() === "" || +feePrice === 0) {
-      setError("Không được bỏ trống");
+    if (feeName.trim() === "" || feeName.length < 3) {
+      toast.error("Tên trống hoặc ít hơn 3 chữ cái!");
+      return;
+    }
+    if (+feePrice < 0) {
+      toast.error("Giá ít hơn 0đ!");
+      return;
+    }
+    if (!categoryName || !date) {
+      toast.error("Có thông tin bị bỏ trống!");
       return;
     }
 
@@ -58,63 +66,62 @@ export default function FeeForm({ categories }) {
   };
 
   return (
-    <FormBox>
-      <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="feeName">Tên chi phí:</label>
-        <input
-          type="text"
-          id="feeName"
-          name="feeName"
-          required
-          value={feeName}
-          onChange={(e) => setFeeName(e.target.value)}
-        />
+    <Form onSubmit={handleSubmit}>
+      <Label htmlFor="feeName">Tên chi phí:</Label>
+      <Input
+        type="text"
+        id="feeName"
+        name="feeName"
+        placeholder="Nhập tên chi phí..."
+        value={feeName}
+        onChange={(e) => setFeeName(e.target.value)}
+      />
 
-        <label htmlFor="feePrice">Số tiền:</label>
-        <input
-          type="number"
-          id="feePrice"
-          name="feePrice"
-          required
-          value={feePrice}
-          onChange={(e) => setFeePrice(e.target.value)}
-        />
+      <Label htmlFor="feePrice">Số tiền:</Label>
+      <Input
+        type="number"
+        id="feePrice"
+        name="feePrice"
+        placeholder="Nhập giá trị..."
+        value={feePrice}
+        onChange={(e) => setFeePrice(e.target.value)}
+      />
 
-        <label htmlFor="categoryName">Danh mục:</label>
-        <DropDownCategories
-          id="categoryName"
-          name="categoryName"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-          options={categories}
-          placeholder="Chọn danh mục..."
-        />
+      <Label htmlFor="categoryName">Danh mục:</Label>
+      <DropDownCategories
+        id="categoryName"
+        name="categoryName"
+        value={categoryName}
+        onChange={(e) => setCategoryName(e.target.value)}
+        options={categories}
+        placeholder="Chọn danh mục..."
+      />
 
-        <label htmlFor="feeDescription">Ghi chú:</label>
-        <textarea
-          id="feeDescription"
-          name="feeDescription"
-          rows="4"
-          value={feeDescription}
-          onChange={(e) => setfeeDescription(e.target.value)}
-        ></textarea>
+      <Label htmlFor="feeDescription">Ghi chú:</Label>
+      <TextArea
+        id="feeDescription"
+        name="feeDescription"
+        rows="2"
+        value={feeDescription}
+        placeholder="Nhập mô tả cho chi phí của bạn..."
+        onChange={(e) => setfeeDescription(e.target.value)}
+      ></TextArea>
 
-        <label htmlFor="date">Ngày:</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          required
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+      <Label htmlFor="date">Ngày:</Label>
+      <Input
+        type="date"
+        id="date"
+        name="date"
+        value={date}
+        placeholder="Chọn ngày đi..."
+        onChange={(e) => setDate(e.target.value)}
+      />
 
-        <button className="btn" type="submit" disabled={isDisabled}>
-          {isDisabled ? "Không thể thêm" : "Thêm"}
-        </button>
+      <Button type="submit" disabled={isDisabled} $center>
+        {isDisabled ? "Không thể thêm" : "Thêm"}
+      </Button>
 
-        <SmallText>{error}</SmallText>
-      </form>
-    </FormBox>
+      <SmallText>{error}</SmallText>
+    </Form>
   );
 }

@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     --text-secondary: #444444;
     --text-muted: #888888;
 
-    --border-primary: rgba(0, 0, 0, 0.1);
+    --border-primary: rgba(0, 0, 0, 0.26);
     --border-hover: rgba(0, 0, 0, 0.3);
 
     --nav-bg: #ffffff;

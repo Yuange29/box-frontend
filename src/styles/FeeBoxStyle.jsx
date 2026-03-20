@@ -16,86 +16,120 @@ const BoxWrapper = styled.div`
 
 const FeeItem = styled.div`
   width: 100%;
-  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr auto auto;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
-  border-radius: 8px;
+  gap: 0.5em;
+  padding: 8px 12px;
+  border-radius: 12px;
   background: var(--bg-card);
-  border-bottom: 1px solid var(--border-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-primary);
   box-sizing: border-box;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
 
-  &:hover {
-    border-color: var(--border-hover);
-    transform: scale(1.01);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: var(--border-hover);
+      background-color: #ebebebf9;
+      transform: translateY(-2px);
+    }
+  }
+
+  &:active {
+    scale: 0.98;
+    background: var(--bg-section);
   }
 
   .title {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
+    text-indent: 10px;
     color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .price {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--success);
+    padding: 4px 10px;
+    border-radius: 8px;
     white-space: nowrap;
   }
 
   button {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
     transition: all 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
     }
 
     &:active {
-      opacity: 0.8;
-      transform: translateY(0);
+      transform: scale(0.9);
+      opacity: 0.7;
     }
   }
 
   .more {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--bg-section);
+    color: var(--text-secondary);
     border: 1px solid var(--border-primary);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--btn-primary);
+        color: var(--btn-primary-text);
+      }
+    }
   }
 
   .delete {
-    background: var(--error);
-    color: white;
+    background: transparent;
+    color: var(--error);
+    border: 1px solid var(--border-primary);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: rgba(239, 83, 80, 0.1);
+        border-color: var(--error);
+      }
+    }
   }
 
   @media (max-width: 768px) {
-    gap: 8px;
-    padding: 4px 8px 4px 12px;
+    gap: 4px;
+    padding: 4px 8px;
 
-    .title,
     .price {
-      font-size: 16px;
-      margin: 4px 8px;
+      font-size: 13px;
+      padding: 2px 8px;
     }
 
     button {
-      width: 30px;
-      height: 30px;
+      width: 34px;
+      height: 34px;
+    }
+
+    &:active {
+      transform: scale(0.97);
     }
   }
 `;

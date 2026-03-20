@@ -3,140 +3,83 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   height: calc(100vh - 74px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: var(--bg-primary);
-  font-family: system-ui, sans-serif;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  padding: 20px;
+  box-sizing: border-box;
 
   .form-container {
-    background: var(--bg-card);
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   .title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary);
     margin-bottom: 24px;
-    color: var(--text-primary);
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  input {
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-primary);
-    font-size: 14px;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-  }
-
-  input::placeholder {
-    color: var(--text-muted);
-  }
-
-  input:focus {
-    outline: none;
-    border-color: var(--border-hover);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+    letter-spacing: -1px;
+    text-align: center;
   }
 
   .forgot {
     cursor: pointer;
     align-self: flex-end;
-    font-size: 12px;
+    margin: 12px 8px 0 0;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text-muted);
     text-decoration: none;
+    transition: color 0.2s ease;
   }
 
   .forgot:hover {
-    color: var(--text-secondary);
-  }
-
-  button {
-    margin-top: 8px;
-    padding: 12px;
-    border: 1px solid var(--border-primary);
-    border-radius: 8px;
-    background: var(--btn-primary);
-    color: var(--btn-primary-text);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  button:hover {
-    background: var(--bg-hover);
     color: var(--text-primary);
-    border-color: var(--border-hover);
+    text-decoration: underline;
   }
 
   .signup {
-    margin-top: 20px;
-    font-size: 13px;
+    margin-top: 24px;
+    font-size: 14px;
     text-align: center;
     color: var(--text-muted);
+    line-height: 1.5;
   }
 
   .signup span {
-    color: var(--text-secondary);
-    font-weight: 600;
+    color: var(--btn-primary);
+    font-weight: 700;
     cursor: pointer;
+    margin-left: 4px;
+    transition: all 0.2s ease;
 
     &:hover {
-      color: var(--text-primary);
+      text-decoration: underline;
+      filter: brightness(1.2);
     }
-  }
-
-  .errText {
-    color: var(--error);
-    font-size: 10px;
-    font-weight: 600;
-    margin: 0;
   }
 
   @media (max-width: 768px) {
-    .form-container {
-      padding: 16px 24px;
-    }
+    height: auto;
+    min-height: calc(100vh - 74px);
+    padding: 40px 20px;
+
     .title {
-      margin: 10px auto;
+      font-size: 20px;
+      margin-bottom: 20px;
     }
 
-    .form {
-      gap: 8px;
-    }
-
-    input,
-    button {
-      padding: 6px 8px;
-      border-radius: 8px;
-    }
-    .forgot {
-      margin: 0;
-    }
-
-    button {
-      width: 150px;
-      align-self: center;
+    .form-container {
+      max-width: 350px;
     }
 
     .signup {
-      font-size: 12px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .form-container {
-      width: 360px;
+      font-size: 13px;
+      margin-top: 0px;
     }
   }
 `;

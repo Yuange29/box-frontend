@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -13,34 +13,41 @@ const Header = styled.header`
   height: 64px;
   padding: 0 24px;
   background: var(--nav-bg);
-  border-bottom: 1px solid #eee;
-
+  border-bottom: 1px solid var(--nav-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
-
-  box-shadow: ${(p) => (p.scrolled ? "0 2px 8px rgba(0,0,0,0.15)" : "none")};
-  transition: box-shadow 0.3s ease;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: ${(props) =>
+    props.$scrolled ? "0 4px 20px rgba(0, 0, 0, 0.08)" : "none"};
 
   @media (max-width: 768px) {
     padding: 0 16px;
+    height: 60px;
   }
 `;
 
 const Logo = styled.img`
-  height: 40px;
-  cursor: pointer;
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const DesktopNav = styled.nav`
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 8px;
 
   @media (max-width: 768px) {
     display: none;
@@ -49,33 +56,54 @@ const DesktopNav = styled.nav`
 
 const NavButton = styled(NavLink)`
   padding: 8px 16px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px 8px 0 0;
-  transition: all 0.25s ease;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    background-color: var(--bg-hover);
   }
 
   &.active {
     color: var(--text-primary);
-    border-bottom: 3px solid var(--text-primary);
-  }
+    background-color: var(--bg-section);
 
-  &:active {
-    transform: scale(0.95);
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+    }
   }
 `;
 
 const MobileNavButton = styled.button`
-  background: transparent;
+  background: var(--bg-section);
   border: 0;
-  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 18px;
   color: var(--text-primary);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+  transition: all 0.2s ease;
+
+  &:active {
+    transform: scale(0.9);
+  }
 
   @media (min-width: 769px) {
     display: none;
@@ -85,39 +113,76 @@ const MobileNavButton = styled.button`
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 150;
-
-  opacity: ${(p) => (p.open ? 1 : 0)};
-  pointer-events: ${(p) => (p.open ? "auto" : "none")};
-  transition: opacity 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 1500;
+  opacity: ${(props) => (props.open ? 1 : 0)};
+  pointer-events: ${(props) => (props.open ? "auto" : "none")};
+  transition: opacity 0.4s ease;
 `;
 
 const NavBar = styled.div`
-  padding: 80px 24px;
-  width: 70%;
-  max-width: 320px;
+  padding: 80px 16px 24px;
+  width: 280px;
   height: 100dvh;
-
   position: fixed;
   top: 0;
   left: 0;
-
+  background-color: var(--bg-secondary);
+  z-index: 2000;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  transform: translateX(${(props) => (props.open ? "0" : "-100%")});
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-  background-color: var(--nav-bg);
-  z-index: 200;
+  /* Style riêng cho NavButton khi nằm trong Mobile NavBar */
+  ${NavButton} {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 12px;
 
-  transform: translateX(${(p) => (p.open ? "0" : "-100%")});
-  transition: transform 0.3s ease;
+    &.active {
+      background-color: var(--btn-primary);
+      color: var(--btn-primary-text);
+      &::after {
+        display: none;
+      }
+    }
+  }
 
   @media (min-width: 769px) {
     display: none;
   }
 `;
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
+const NavItem = styled(NavButton)`
+  ${(props) =>
+    props.$open &&
+    css`
+      animation: ${slideIn} 0.4s ease forwards;
+      animation-delay: ${props.$index * 0.05 + 0.1}s;
+      opacity: 0;
+    `}
+`;
+
+const MobileMenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
 export default function HeaderLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -125,16 +190,13 @@ export default function HeaderLayout() {
   const links = getLinks(user);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 0);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => (document.body.style.overflow = "");
   }, [menuOpen]);
 
   return (
@@ -160,15 +222,19 @@ export default function HeaderLayout() {
       <Overlay open={menuOpen} onClick={() => setMenuOpen(false)} />
 
       <NavBar open={menuOpen}>
-        {links.map((link) => (
-          <NavButton
-            key={link.id}
-            to={link.path}
-            onClick={() => setMenuOpen(false)}
-          >
-            {link.label}
-          </NavButton>
-        ))}
+        <MobileMenuContainer>
+          {links.map((link, index) => (
+            <NavItem
+              key={link.id}
+              to={link.path}
+              $index={index}
+              $open={menuOpen}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </NavItem>
+          ))}
+        </MobileMenuContainer>
       </NavBar>
     </>
   );

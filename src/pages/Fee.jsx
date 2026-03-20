@@ -26,7 +26,7 @@ export default function Fee() {
   const memoizedLinks = useMemo(() => links, []);
 
   useEffect(() => {
-    setLoadingFees(true);
+    if (!fees || fees.length === 0) setLoadingFees(true);
   }, []);
 
   return (

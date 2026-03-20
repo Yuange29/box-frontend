@@ -1,38 +1,38 @@
 import { useState, useContext } from "react";
-import Wrapper from "../../styles/FormWrapper";
-import { login } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
-import Dialog from "../ui/Dialog";
-import Loading from "../ui/Loading";
-import { SmallText, Text } from "../ui/Typography";
-import { getInfo } from "../../services/user.service";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { LoadingContext } from "../../contexts/LoadingContext.jsx";
+import { ToastContext } from "../../contexts/ToastContext.jsx";
+
+import Wrapper from "../../styles/FormWrapper";
+import { Button } from "../ui/Button.jsx";
+import { Form, Input, Label } from "../ui/FormIngredients.style.jsx";
 
 import api from "../../services/api.js";
+import { login } from "../../services/auth.service";
+import { getInfo } from "../../services/user.service";
 
 const SignInForm = () => {
+  const { login: loginContext } = useContext(AuthContext);
+  const { loadingData, setLoadingData } = useContext(LoadingContext);
+  const { toast } = useContext(ToastContext);
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showDialog, setShowDialog] = useState(false);
-  const { loadingData, setLoadingData } = useContext(LoadingContext);
-  const { login: loginContext } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoadingData(true);
 
-    if (!userName || !password) {
-      setError("Vui lòng điền tên tài khoản và mật khẩu");
-      setLoadingData(false);
+    if (!userName || userName.length < 6 || !password) {
+      toast.error("Tên đăng nhập hoặc mật khẩu sai!");
       return;
     }
 
     try {
+      setLoadingData(true);
+
       const response = await login(userName, password);
       const { accessToken } = response.data.data;
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -40,11 +40,11 @@ const SignInForm = () => {
       const userInfo = await getInfo();
 
       loginContext(userInfo.data.data, accessToken);
-      setShowDialog(true);
 
+      toast.success("Đăng nhập thành công!");
       navigate("/");
     } catch (error) {
-      setShowDialog(true);
+      toast.error("Đăng nhập thất bại!");
       console.error("Login failed:", error);
     } finally {
       setLoadingData(false);
@@ -52,58 +52,45 @@ const SignInForm = () => {
   };
 
   return (
-    <>
-      <Wrapper>
-        <div className="form-container">
+    <Wrapper>
+      <div className="form-container">
+        <Form onSubmit={handleSubmit} autoComplete="off">
           <h1 className="title">Đăng nhập</h1>
 
-          <form className="form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="User name"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-            {error && userName.length < 6 && (
-              <SmallText className="errText">Tên tài khoản chưa đúng</SmallText>
-            )}
+          <Label>Tên đăng nhập:</Label>
+          <Input
+            type="text"
+            autoComplete="username"
+            placeholder="Nhập tên đăng nhập của bạn"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <Label>Mật khẩu:</Label>
+          <Input
+            type="password"
+            autoComplete="current-password"
+            placeholder="Nhập mật khẩu"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            {error && password.length < 6 && (
-              <SmallText className="errText">Mật khẩu chưa đúng</SmallText>
-            )}
+          <p
+            className="forgot" /*onClick={() => navigate("/forgot-password")}*/
+          >
+            Quên mật khẩu?
+          </p>
 
-            <Text
-              className="forgot"
-              onClick={() => navigate("/forgot-password")}
-            >
-              Quên mật khẩu?
-            </Text>
-
-            <button type="submit" disabled={loadingData}>
-              {loadingData ? <Loading /> : "Đăng nhập"}
-            </button>
-          </form>
+          <Button type="submit" disabled={loadingData} $center>
+            {loadingData ? "Chờ xí" : "Đăng nhập"}
+          </Button>
           <p className="signup">
-            Chưa có tài khoản?{" "}
+            Chưa có tài khoản?
             <span onClick={() => navigate("/signup")}>Đăng kí</span>
           </p>
-        </div>
-      </Wrapper>
-      <Dialog
-        isOpen={showDialog}
-        onClose={() => setShowDialog(false)}
-        title="Thông báo"
-      >
-        <p>Đăng nhập thành công!</p>
-      </Dialog>
-    </>
+        </Form>
+      </div>
+    </Wrapper>
   );
 };
 

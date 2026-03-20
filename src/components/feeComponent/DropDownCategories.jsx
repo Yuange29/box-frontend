@@ -94,7 +94,7 @@ const Wrapper = styled.div`
 `;
 
 const Trigger = styled.button`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -102,7 +102,7 @@ const Trigger = styled.button`
   padding: 0 14px;
   height: 42px;
   background: var(--bg-secondary);
-  border: 1.5px solid var(--btn-setting);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   cursor: pointer;
   outline: none;

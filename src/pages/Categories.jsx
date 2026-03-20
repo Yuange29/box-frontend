@@ -24,7 +24,7 @@ export default function Categories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoadingCategories(true);
+    if (!categories || categories.lenght === 0) setLoadingCategories(true);
   }, [setLoadingCategories]);
   return (
     <>

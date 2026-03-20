@@ -1,43 +1,46 @@
 import styled from "styled-components";
+
 import { footerData } from "../../data/generalData.js";
-import { Heading, Text } from "../ui/Typography.jsx";
+
+import { Heading } from "../ui/Typography.jsx";
 
 const Footer = styled.footer`
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 16px;
-  padding: 40px 24px;
-  box-sizing: border-box;
   background-color: var(--bg-card);
+  border-top: 1px solid var(--border-primary);
+  padding: 60px 24px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 
   @media (max-width: 768px) {
-    gap: 8px;
-    padding: 16px 8px;
+    padding: 40px 16px 20px;
+    gap: 30px;
   }
 `;
 
+const FooterGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
 const InformationCard = styled.div`
-  flex: 1 1 280px;
-  max-width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--cotton-color);
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-  &:hover {
-    transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  @media (max-width: 768px) {
-    flex: 1 1 100%;
-    padding: 8px;
+  h4 {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
   }
 `;
 
@@ -45,40 +48,72 @@ const InformationList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const InformationChild = styled.li`
-  padding: 6px 0;
-  margin-left: 10px;
   color: var(--text-secondary);
-  font-size: 16px;
-  opacity: 0.85;
-  transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+  position: relative;
 
   &:hover {
-    scale: 1.02;
-    opacity: 0.95;
+    color: var(--text-primary);
+    transform: translateX(5px);
   }
 
-  &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Hiệu ứng gạch chân nhẹ khi hover */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--text-primary);
+    transition: width 0.3s ease;
   }
 
-  @media (max-width: 768px) {
-    padding: 5px;
+  &:hover::after {
+    width: 100%;
   }
 `;
 
 const Copyright = styled.div`
   width: 100%;
-  text-align: center;
-  padding: 16px 0;
-  color: var(--text-secondary);
-  font-size: 14px;
-  opacity: 0.6;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 13px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+`;
+
+const SocialIcons = styled.div`
+  display: flex;
+  gap: 16px;
+  font-size: 18px;
+
+  i {
+    cursor: pointer;
+    transition: color 0.2s;
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
 `;
 
 function ShowData({ title, inf }) {
@@ -97,10 +132,20 @@ function ShowData({ title, inf }) {
 export default function FooterLayout() {
   return (
     <Footer>
-      {footerData.map((item, index) => (
-        <ShowData key={index} {...item} />
-      ))}
-      <Copyright>© 2026 Storage Service. All rights reserved.</Copyright>
+      <FooterGrid>
+        {footerData.map((item, index) => (
+          <ShowData key={index} {...item} />
+        ))}
+      </FooterGrid>
+
+      <Copyright>
+        <span>© 2026 Storage Service. All rights reserved.</span>
+        <SocialIcons>
+          <i className="fa-brands fa-facebook"></i>
+          <i className="fa-brands fa-twitter"></i>
+          <i className="fa-brands fa-github"></i>
+        </SocialIcons>
+      </Copyright>
     </Footer>
   );
 }

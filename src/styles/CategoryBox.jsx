@@ -18,86 +18,111 @@ const BoxContainer = styled.div`
 
 const Child = styled.div`
   box-sizing: border-box;
-  width: 70%;
-  margin: 10px auto;
+  width: 75%;
+  margin: 8px auto;
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 0 12px;
+  gap: 12px;
   align-items: center;
-  padding: 5px;
+  padding: 10px 16px;
   background: var(--bg-card);
-  border-bottom: 1px solid var(--border-primary);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: border-color 0.2s ease;
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover {
-    border-color: var(--border-hover);
-    scale: 1.01;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &:active {
+    scale: 0.98;
+    background: var(--bg-hover);
   }
 
   .content {
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     color: var(--text-primary);
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    padding-left: 12px;
   }
 
   button {
-    width: 40px;
-    height: 40px;
-    padding: 8px 16px;
+    width: 36px;
+    height: 36px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: none;
 
-    &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      transform: translateY(-2px);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     &:active {
-      opacity: 0.8;
-      transform: translateY(0);
+      scale: 0.9;
     }
   }
 
   .more-btn {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--bg-section);
+    color: var(--text-secondary);
     border: 1px solid var(--border-primary);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--btn-primary);
+        color: var(--btn-primary-text);
+        border-color: transparent;
+      }
+    }
   }
 
   .delete-btn {
-    background: var(--error);
-    color: white;
+    background: transparent;
+    color: var(--error);
+    border: 1px solid var(--border-primary);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: rgba(239, 83, 80, 0.1);
+        border-color: var(--error);
+      }
+    }
   }
 
   @media (max-width: 768px) {
     width: 100%;
+    margin: 6px 0;
+    padding: 8px 12px;
+    gap: 8px;
 
     .content {
-      font-size: 16px;
-      margin: 4px 8px 4px 0px;
-      padding-left: 10px;
+      font-size: 15px;
+      padding-left: 4px;
     }
 
     button {
-      width: 30px;
-      height: 30px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .content {
-      text-indent: 20px;
+      width: 32px;
+      height: 32px;
     }
   }
 `;
