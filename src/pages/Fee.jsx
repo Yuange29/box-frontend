@@ -1,28 +1,22 @@
-import { useContext, useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useMemo } from "react";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { DataContext } from "../contexts/DataContext";
 
 import Section from "../components/ui/Section";
 import Container from "../components/ui/Container";
 import { Heading } from "../components/ui/Typography";
 import FeatureCard from "../components/homeComponents/FeatureCard";
 import FeatureWrapper from "../styles/FeatureWrapper";
-import Dialog from "../components/ui/Dialog";
-import { Button } from "../components/ui/Button";
+
 import FeeBox from "../components/feeComponent/FeeBox";
 import FeeForm from "../components/feeComponent/FeeForm";
 
-import { feeFeatures as links } from "../data/featuresInfomation";
-import { DataContext } from "../contexts/DataContext";
 import SearchBar from "../components/feeComponent/SearchBar";
+import { feeFeatures as links } from "../data/featuresInfomation";
 
 export default function Fee() {
-  const { user } = useContext(AuthContext);
   const { fees, setLoadingFees, categories } = useContext(DataContext);
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const navigate = useNavigate();
   const memoizedLinks = useMemo(() => links, []);
 
   useEffect(() => {
@@ -70,22 +64,6 @@ export default function Fee() {
           <FeeForm categories={categories} />
         </Container>
       </Section>
-
-      {!user && (
-        <Dialog
-          title={"Vui lòng đăng nhập"}
-          isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-        >
-          Ấn nút đăng nhập để tiếp tục.
-          <Button
-            onClick={() => navigate("/signin")}
-            style={{ margin: "0 auto", display: "block", marginTop: "32px" }}
-          >
-            Đăng nhập
-          </Button>
-        </Dialog>
-      )}
     </>
   );
 }

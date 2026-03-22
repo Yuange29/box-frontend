@@ -17,7 +17,7 @@ export default function Home() {
       <Section $fullHeight>
         <Container>
           <Heading $level={1} style={{ textAlign: "center", margin: 0 }}>
-            Chào mừng {user?.userName || "bạn đến với Storage"}
+            Chào mừng {user?.userNickName || "bạn đến với Storage"}
           </Heading>
           <Clock />
         </Container>

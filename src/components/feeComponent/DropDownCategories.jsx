@@ -94,7 +94,7 @@ const Wrapper = styled.div`
 `;
 
 const Trigger = styled.button`
-  width: 100%;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -127,7 +127,7 @@ const Trigger = styled.button`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
+    // width: 100%;
   }
 `;
 

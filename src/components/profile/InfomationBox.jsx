@@ -25,7 +25,7 @@ export default function InfomationBox() {
 
   return (
     <InfoWrapper>
-      <Text>Tên tài khoản: {user.userName || "trống"}</Text>
+      <Text>Tên tài khoản: {user.userNickName || "trống"}</Text>
       <Text>Email: {user.email || "trống"}</Text>
     </InfoWrapper>
   );
